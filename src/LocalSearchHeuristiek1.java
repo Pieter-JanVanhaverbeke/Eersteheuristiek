@@ -1,9 +1,6 @@
 import org.jgrapht.util.MathUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class LocalSearchHeuristiek1 {
     private int [] besteoplossing;
@@ -13,19 +10,30 @@ public class LocalSearchHeuristiek1 {
     private int lengte;
     private List<Integer> minlijst;
     private List<String> combinationlist;
+    private Map<Integer,String> oplossingmap;
+    private Map<String,Integer> frequentiemap;
 
     public LocalSearchHeuristiek1() {
         this.oplossing = null;
         oplossingstring = null;
         aantalelements=0;
         lengte=0;
+        oplossingmap = new HashMap<>();
+        frequentiemap = new HashMap<>();
     }
 
-    public LocalSearchHeuristiek1(int aantalelements, int lengte) {
+    public LocalSearchHeuristiek1(int aantalelements, int lengte, List<String> combinationlist) {
         this.oplossing = null;
         this.oplossingstring = null;
         this.aantalelements=aantalelements;
         this.lengte = lengte;
+        this.combinationlist = combinationlist;
+        oplossingmap = new HashMap<>();
+        frequentiemap = new HashMap<>();
+        for(int i=0; i<combinationlist.size();i++){
+            frequentiemap.put(combinationlist.get(i),0);
+        }
+
     }
 
 
@@ -69,6 +77,14 @@ public class LocalSearchHeuristiek1 {
         this.combinationlist = combinationlist;
     }
 
+    public Map<Integer, String> getOplossingmap() {
+        return oplossingmap;
+    }
+
+    public void setOplossingmap(Map<Integer, String> oplossingmap) {
+        this.oplossingmap = oplossingmap;
+    }
+
     public void start1(){
         boolean oplossinggevonden = false;
         //constructie oplossing
@@ -81,7 +97,8 @@ public class LocalSearchHeuristiek1 {
 
             randomswap();
             System.out.println(Arrays.toString(oplossing));
-            oplossinggevonden = true;
+            oplossinggevonden = checkFeasible();
+            //oplossinggevonden = true;
         }
 
 
@@ -107,6 +124,8 @@ public class LocalSearchHeuristiek1 {
         for(int i=0; i<lijst.size();i++){
             oplossing[i] = lijst.get(i);
         }
+
+        intioplossingmap();         //alle huidige combinaties mappen
 
         oplossingstring = Arrays.toString(oplossing);
     }
@@ -143,7 +162,32 @@ public class LocalSearchHeuristiek1 {
         return grade;
     }
 
+    public boolean checkFeasible(){                 //TODO NIET ALLES MAP CONTROLEREN NA INTITIELE
+        for(int i=0; i<combinationlist.size();i++){
+            if (frequentiemap.get(combinationlist.get(i))==0){
+                return false;
+            }
+        }
+        return true;
+    }
 
+    public void intioplossingmap(){
+        for(int i=0;i<aantalelements-lengte+1;i++){
+            String comb = getstringpos(i);
+            oplossingmap.put(i,comb);
+            frequentiemap.merge(comb,1,  Integer::sum); //TODO snellere manier?
+        }
+    }
+
+    //Methode dat string van bepaalde positie returned
+    public String getstringpos(int index){
+        String string = "";
+        for(int i=0; i<lengte;i++){
+            string = string + oplossing[index+i];
+        }
+
+        return string;
+    }
 
     public boolean ControlleerAlles(List<String> lijst){
         for(int i=0; i<lijst.size();i++){
@@ -153,6 +197,8 @@ public class LocalSearchHeuristiek1 {
         }
         return true;
     }
+
+
 
 
 
