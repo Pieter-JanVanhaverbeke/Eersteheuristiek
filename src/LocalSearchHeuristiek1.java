@@ -94,12 +94,17 @@ public class LocalSearchHeuristiek1 {
         System.out.println(Arrays.toString(oplossing));
 
         while(!oplossinggevonden){
-
-            randomswap();
+            maakrandomopl();
             System.out.println(Arrays.toString(oplossing));
-            oplossinggevonden = checkFeasible();
-            //oplossinggevonden = true;
+            for(int i=0; i<100;i++){
+                randomswap();
+              //  System.out.println(Arrays.toString(oplossing));
+                //oplossinggevonden = checkFeasible();
+                oplossinggevonden = controlleerAlles();
+            }
         }
+
+        System.out.println(Arrays.toString(oplossing));
 
 
     }
@@ -113,7 +118,7 @@ public class LocalSearchHeuristiek1 {
                 lijst.add(j);
             }
         }
-        minlijst = lijst;
+        minlijst = new ArrayList<>(lijst);
         while(lijst.size()<aantalelements){
         int random2 = (int )(Math.random() * lengte);
         lijst.add(random2);         //random 3 elements
@@ -189,9 +194,13 @@ public class LocalSearchHeuristiek1 {
         return string;
     }
 
-    public boolean ControlleerAlles(List<String> lijst){
-        for(int i=0; i<lijst.size();i++){
-            if(!oplossingstring.contains(lijst.get(i))){
+    public boolean controlleerAlles(){
+
+        
+
+
+        for(int i=0; i<combinationlist.size();i++){
+            if(!oplossingstring.contains(combinationlist.get(i))){
                 return false;
             }
         }
@@ -201,6 +210,15 @@ public class LocalSearchHeuristiek1 {
 
 
 
+    public void maakrandomopl(){
+     //   ArrayList<Integer> nieuwelijst = new ArrayList<>(minlijst);
+        for(int i=0; i<minlijst.size();i++){
+            oplossing[i]=minlijst.get(i);                                   //TODO oplossing in RAM houden
+        }
+        for(int j=minlijst.size();j<oplossing.length;j++){
+            oplossing[j]=(int )(Math.random() * lengte);
+        }
+    }
 
 
 
