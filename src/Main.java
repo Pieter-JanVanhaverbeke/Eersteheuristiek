@@ -2,6 +2,7 @@ import org.jgrapht.util.MathUtil;
 
 import java.util.*;
 
+
 public class Main {
     public static void main(String[] args) {
         //List<String> superpermutation = new ArrayList<>();
@@ -35,7 +36,16 @@ public class Main {
         opl2.setCombinationlist(permutation.getPermutationlijst());
         opl2.start1();
 
-
+     /*   LocalSearchHeuristiek1 local = new LocalSearchHeuristiek1();
+        char [] opl15 = new char[5];
+        opl15[0]='1';
+        opl15[1]='2';
+        opl15[2]='3';
+        opl15[3]='4';
+        opl15[4]='5';
+        opl2.setOplossing(opl15);
+        System.out.println("pos: " + opl2.getstringpos(2));
+*/
     }
 }
 
