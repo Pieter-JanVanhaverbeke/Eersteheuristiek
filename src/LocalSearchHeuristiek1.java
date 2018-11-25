@@ -100,34 +100,20 @@ public class LocalSearchHeuristiek1 {
         //eerst initiele opl
         maakinitieleopl();
 
-
-
-        System.out.println(String.valueOf(oplossing));
-
         while(!oplossinggevonden){
             maakrandomopl();
-       //     for(int i=0; i<10;i++){
-                randomswap();
+            for(int i=0; i<5;i++){
+               randomswap();
                 //oplossinggevonden = checkFeasible();
-       //     System.out.println(String.valueOf(oplossing));
-                oplossinggevonden = true;
-       //     }
+                oplossinggevonden = controlleerAlles();
+           //     System.out.println(String.valueOf(oplossing));
+           }
         }
 
 
-
-
-      //  for(int i=0; i<10;i++) {
             System.out.println("finale oplossing: " + String.valueOf(oplossing));
             printfrequentiemap();
 
-            randomswap();
-            System.out.println("finale oplossing2: " + String.valueOf(oplossing));
-            printfrequentiemap();
-
-            System.out.println("finale oplossing3: " + String.valueOf(oplossing));
-            printfrequentiemap();
-    //    }
     }
 
     public void maakinitieleopl(){
@@ -159,22 +145,12 @@ public class LocalSearchHeuristiek1 {
     }
 
     public void swap(int index1, int index2){       //TODO NIET ALLES IN MAP STEKEN
-        Set nieuweposities = new HashSet();
+     //   Set nieuweposities = new HashSet();
 
-
-        frequentiemap.merge(getstringpos(index1),-1,Integer::sum);
-        frequentiemap.merge(getstringpos(index2),-1,Integer::sum);
 
         char temp = oplossing [index1];
         oplossing[index1] = oplossing [index2];
         oplossing[index2] = temp;
-
-
-
-        updateOplossing(index1);
-        updateOplossing(index2);
-
-
 
 
     }
@@ -183,31 +159,16 @@ public class LocalSearchHeuristiek1 {
         int index1 = (int)(Math.random() * (aantalelements-lengte));      //random element tussen mogelijke indices
         int index2 = (int)(Math.random() * (aantalelements-lengte));
 
+        Set<Integer> indexset = new HashSet<Integer>();
+        addIndexToSet(indexset,index1);
+        addIndexToSet(indexset,index2);
 
-
-
-        //updaten frequenties
-        String a = getstringpos(index1);
-        String b = getstringpos(index2);
-
-        if(uniqueCharacters(a)){
-            frequentiemap.merge(a,-1,Integer::sum);
-        }
-        if(uniqueCharacters(b)){
-            frequentiemap.merge(b,-1,Integer::sum);
-        }
-
+        verlaagFrequenties(indexset);
 
         swap(index1,index2);
 
+        verhoogFrequenties(indexset);
 
-        if(uniqueCharacters(a)){
-            updateOplossing(index1);
-        }
-
-        if(uniqueCharacters(b)){
-            updateOplossing(index2);
-        }
     }
 
     public void insertrandom(int index){
@@ -236,6 +197,9 @@ public class LocalSearchHeuristiek1 {
 
     public void intioplossingmap(){
 
+        oplossingmap.clear();
+        frequentiemap.clear();
+
         for(int i=0; i<combinationlist.size();i++){
             frequentiemap.put(combinationlist.get(i),0);
         }
@@ -263,6 +227,7 @@ public class LocalSearchHeuristiek1 {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -305,13 +270,19 @@ public class LocalSearchHeuristiek1 {
 
 
     public Set addIndexToSet(Set<Integer> set, int index){
-        for(int i=index-lengte+1; i<index;i++){
+        for(int i=index-lengte+1; i<=index;i++){
             if(i>=0){
                 set.add(i);
             }
         }
 
         return set;
+    }
+
+    public void printset(Set<Integer> set){
+        for (Integer s : set) {
+            System.out.println(s);
+        }
     }
 
     public void verlaagFrequenties(Set<Integer> set){
@@ -327,10 +298,12 @@ public class LocalSearchHeuristiek1 {
         for (Integer s : set) {
             String comb = getstringpos(s);
             if(uniqueCharacters(comb)) {
+                oplossingmap.put(s,comb);
                 frequentiemap.merge(comb, 1, Integer::sum);
             }
         }
     }
+
 
 
 
