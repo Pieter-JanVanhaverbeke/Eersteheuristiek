@@ -1,5 +1,4 @@
 import org.jgrapht.util.MathUtil;
-
 import java.util.*;
 
 public class LocalSearchHeuristiek1 {
@@ -12,6 +11,8 @@ public class LocalSearchHeuristiek1 {
     private List<String> combinationlist;
     private Map<Integer,String> oplossingmap;
     private Map<String,Integer> frequentiemap;
+    private Map<String,Integer> bestefrequentiemap;
+    private int bestegraad;
 
 
     public LocalSearchHeuristiek1() {
@@ -34,6 +35,8 @@ public class LocalSearchHeuristiek1 {
         for(int i=0; i<combinationlist.size();i++){
             frequentiemap.put(combinationlist.get(i),0);
         }
+        bestefrequentiemap = new HashMap<>();
+        bestegraad = 0;
 
     }
 
@@ -99,12 +102,22 @@ public class LocalSearchHeuristiek1 {
 
         //eerst initiele opl
         maakinitieleopl();
+        int teller = 0;
+        while(!oplossinggevonden&&teller<10000){
 
-        while(!oplossinggevonden){
-            maakrandomopl();
+//            oplossing = besteoplossing.clone();
+            insertrandom();
+                 System.out.println(String.valueOf(oplossing));
             for(int i=0; i<5;i++){
                randomswap();
-                //oplossinggevonden = checkFeasible();
+
+               if(getOplossingGraad()>=bestegraad){         //TODO KAN EFFICIENTER
+                   bestegraad = getOplossingGraad();
+                   besteoplossing = oplossing.clone();          //nieuwe oplossing setten
+                   bestefrequentiemap = new HashMap<String,Integer>(frequentiemap);
+               }
+                teller++;
+              //  oplossinggevonden = checkFeasible();
                 oplossinggevonden = controlleerAlles();
            //     System.out.println(String.valueOf(oplossing));
            }
@@ -137,10 +150,10 @@ public class LocalSearchHeuristiek1 {
         for(int i=0; i<lijst.size();i++){
             oplossing[i] =  lijst.get(i);
         }
-
         intioplossingmap();         //alle huidige combinaties mappen
 
-
+      //  besteoplossing = oplossing.clone();
+      //  bestefrequentiemap = new HashMap<String,Integer>(frequentiemap);
 
     }
 
@@ -171,9 +184,19 @@ public class LocalSearchHeuristiek1 {
 
     }
 
-    public void insertrandom(int index){
+    public void insertrandom(){
         //verander char[index]
-        oplossing[index] = (char)(Math.random() * aantalelements);      //naar random ander element
+
+        int index = (char)(Math.random() * (aantalelements-lengte));
+
+        Set<Integer> indexset = new HashSet<Integer>();
+        addIndexToSet(indexset,index);
+
+        verlaagFrequenties(indexset);
+        oplossing[index] = (char)((Math.random() * lengte) +'1');      //naar random ander element
+        verhoogFrequenties(indexset);
+
+
     }
 
     public void insert(int index, char element){
@@ -267,6 +290,12 @@ public class LocalSearchHeuristiek1 {
         }
     }
 
+    public void printbestefrequentiemap(){
+        for(int i=0; i<combinationlist.size();i++){
+            System.out.println(combinationlist.get(i) + ": " + bestefrequentiemap.get(combinationlist.get(i)));
+        }
+    }
+
 
 
     public Set addIndexToSet(Set<Integer> set, int index){
@@ -305,6 +334,28 @@ public class LocalSearchHeuristiek1 {
     }
 
 
+  /*  public int solutiongrade(){
+        int grade = 0;
+        for(int i=0; i<combinationlist.size();i++){
+            if(oplossingstring.contains(combinationlist.get(0))){
+                grade++;
+            }
+        }
+        return grade;
+    }
+*/
+
+    public int getOplossingGraad(){
+        int graad = 0;
+        for(int i=0; i<combinationlist.size();i++){
+            String comb = combinationlist.get(i);
+            if(frequentiemap.get(comb)!=0){
+                graad++;
+            }
+        }
+
+        return graad;
+    }
 
 
     //O[Nlog(N)]
@@ -336,16 +387,7 @@ public class LocalSearchHeuristiek1 {
 }
 
 
-  /*  public int solutiongrade(){
-        int grade = 0;
-        for(int i=0; i<combinationlist.size();i++){
-            if(oplossingstring.contains(combinationlist.get(0))){
-                grade++;
-            }
-        }
-        return grade;
-    }
-*/
+
 
     /* public void updatefrequencyMap(int index, String comb, String oldcomb){
 

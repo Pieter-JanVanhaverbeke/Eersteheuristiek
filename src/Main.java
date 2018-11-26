@@ -7,8 +7,8 @@ public class Main {
     public static void main(String[] args) {
         //List<String> superpermutation = new ArrayList<>();
         // String [] superpermutation3 = new String [9];
-        int permutationlengte = 4;
-        int superstringlengte = 100;
+        int permutationlengte = 3;
+        int superstringlengte = 9;
         Solution solution;
         Permutation permutation = new Permutation(permutationlengte);       //genereer permutatie
 
@@ -35,7 +35,7 @@ public class Main {
         LocalSearchHeuristiek1 opl2 = new LocalSearchHeuristiek1(superstringlengte,permutationlengte,permutation.getPermutationlijst());
         opl2.setCombinationlist(permutation.getPermutationlijst());
         opl2.start1();
-        
+
     }
 }
 
