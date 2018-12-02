@@ -34,7 +34,7 @@ public class Main {
         System.out.println("oplossing localsearch1 heuristiek: ");
         LocalSearchHeuristiek1 opl2 = new LocalSearchHeuristiek1(superstringlengte,permutationlengte,permutation.getPermutationlijst());
         opl2.setCombinationlist(permutation.getPermutationlijst());
-        opl2.start1();
+        opl2.start();
 
     }
 }

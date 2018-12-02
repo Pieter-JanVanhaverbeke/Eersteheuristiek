@@ -4,39 +4,35 @@ import java.util.*;
 public class LocalSearchHeuristiek1 {
     private char [] besteoplossing;              //TODO omzetten naar char
     private char [] oplossing;
-    private String oplossingstring;
+    private char [] neighbouroplossing;
     private int aantalelements;
     private int lengte;
     private List<Character> minlijst;
     private List<String> combinationlist;
-    private Map<Integer,String> oplossingmap;
-    private Map<String,Integer> frequentiemap;
-    private Map<String,Integer> bestefrequentiemap;
+    private Set<String> aanwezigestrings;
+    private Set<String> tabulijst;
+   // private int[] frequenties;
     private int bestegraad;
+
+    boolean validoplossing;
 
 
     public LocalSearchHeuristiek1() {
         this.oplossing = null;
-        oplossingstring = null;
         aantalelements=0;
         lengte=0;
-        oplossingmap = new HashMap<>();
-        frequentiemap = new HashMap<>();
     }
 
     public LocalSearchHeuristiek1(int aantalelements, int lengte, List<String> combinationlist) {
         this.oplossing = null;
-        this.oplossingstring = null;
         this.aantalelements=aantalelements;
         this.lengte = lengte;
         this.combinationlist = combinationlist;
-        oplossingmap = new HashMap<>();
-        frequentiemap = new HashMap<>();
-        for(int i=0; i<combinationlist.size();i++){
-            frequentiemap.put(combinationlist.get(i),0);
-        }
-        bestefrequentiemap = new HashMap<>();
+        this.aanwezigestrings = new HashSet<String>();
+
+     //   this.frequenties = new int[combinationlist.size()];
         bestegraad = 0;
+        validoplossing = false;
 
     }
 
@@ -54,14 +50,6 @@ public class LocalSearchHeuristiek1 {
 
     public void setOplossing(char[] oplossing) {
         this.oplossing = oplossing;
-    }
-
-    public String getOplossingstring() {
-        return oplossingstring;
-    }
-
-    public void setOplossingstring(String oplossingstring) {
-        this.oplossingstring = oplossingstring;
     }
 
     public int getAantalelements() {
@@ -88,46 +76,175 @@ public class LocalSearchHeuristiek1 {
         this.combinationlist = combinationlist;
     }
 
-    public Map<Integer, String> getOplossingmap() {
-        return oplossingmap;
-    }
 
-    public void setOplossingmap(Map<Integer, String> oplossingmap) {
-        this.oplossingmap = oplossingmap;
-    }
-
-    public void start1(){
+    public void start() {
         boolean oplossinggevonden = false;
         //constructie oplossing
 
         //eerst initiele opl
         maakinitieleopl();
-        int teller = 0;
-        while(!oplossinggevonden&&teller<10000){
+        //    System.out.println(new String(oplossing,0,aantalelements));
+        besteoplossing = oplossing.clone();
+//123121321
 
-//            oplossing = besteoplossing.clone();
-            insertrandom();
-                 System.out.println(String.valueOf(oplossing));
-            for(int i=0; i<5;i++){
-               randomswap();
+        besteoplossing[0] = '1';
+        besteoplossing[1] = '1';
+        besteoplossing[2] = '2';
+        besteoplossing[3] = '2';
+        besteoplossing[4] = '2';
+        besteoplossing[5] = '3';
+        besteoplossing[6] = '3';
+        besteoplossing[7] = '3';
+        besteoplossing[8] = '3';
+        Collections.sort(combinationlist);
 
-               if(getOplossingGraad()>=bestegraad){         //TODO KAN EFFICIENTER
-                   bestegraad = getOplossingGraad();
-                   besteoplossing = oplossing.clone();          //nieuwe oplossing setten
-                   bestefrequentiemap = new HashMap<String,Integer>(frequentiemap);
-               }
-                teller++;
-              //  oplossinggevonden = checkFeasible();
-                oplossinggevonden = controlleerAlles();
-           //     System.out.println(String.valueOf(oplossing));
-           }
+
+        recursieswap(0);
+        System.out.println("finale oplossing: " + new String(besteoplossing,0,aantalelements));
+    }
+
+       /* for(int i=0; i<combinationlist.size();i++){
+            System.out.println(combinationlist.get(i));
         }
 
 
-            System.out.println("finale oplossing: " + String.valueOf(oplossing));
-            printfrequentiemap();
+
+
+*/
+
+       /*
+
+       oplossing = besteoplossing.clone();
+if(controlleerAlles()){
+    System.out.println("true true");
+}
+      //  while(!oplossinggevonden) {
+     //   overloopswappen();
+     //       deepSearch();
+           // oplossinggevonden = controlleerAlles();
+       // }
+
+        System.out.println("finale oplossing: " + new String(besteoplossing,0,aantalelements));
+*/
+
+
+    public void swap(int index1, int index2){       //TODO NIET ALLES IN MAP STEKEN
+        char temp = oplossing [index1];
+        oplossing[index1] = oplossing [index2];
+        oplossing[index2] = temp;
+    }
+
+
+    public void recursieswap(int index){
+        for(int i=index;i<oplossing.length-1;i++){
+            for(int j=index+1; j<oplossing.length-1;j++){
+                swap(i,j);
+                //controleren
+                if(controlleerAlles()){
+                    besteoplossing = oplossing.clone();
+                }
+                System.out.println( new String(oplossing,0,aantalelements));
+            }
+            recursieswap(index+1);  //plaats opschuiven
+
+        }
 
     }
+
+
+    public void deepSearch(){
+        int teller = 0;
+
+        while(teller<aantalelements){
+            oplossing = besteoplossing.clone();
+            //changevalues [teller]
+            System.out.println(teller);
+              changevalue(teller);
+              teller++;
+
+            //for iedere change, swap alle elementen
+        }
+
+    }
+
+    public void insertpermutation(){
+
+    }
+
+
+
+
+    public void changevalue(int index){
+        char nummer = oplossing[index];
+
+        for(int i=0;i<lengte;i++){
+            char nieuwnummer = (char) (i + '1');
+            if(nummer != nieuwnummer ){                 //TODO KAN NOG EFFICIENTER
+                change(index, nieuwnummer);
+                overloopswappen();                        //TODO NIET ALLES OVERLOPEN
+            }
+        }
+        change(index,besteoplossing[index]);        //Reverten van changes
+    }
+
+    public void change(int index, char character){
+        oplossing[index] = character;
+    }
+
+    public void swapAlles(){
+     /*   for(int i=0; i<aantalelements;i++){
+            swapvolgende(i);
+        }*/
+     //overloopswappen();
+    }
+
+
+
+
+
+    public void overloopswappen(){
+     //   System.out.println(new String(oplossing,0,aantalelements));
+        for(int i=0 ;i<aantalelements;i++){
+            for(int j=0; j<aantalelements;j++){
+                if(i!=j){
+                    swap(i,j);
+                    if(!controlleerAlles()){
+                        System.out.println(new String(oplossing,0,aantalelements));
+
+                        swap(i,j);
+                    }
+                    else{
+
+                        validoplossing = true;
+                        besteoplossing = oplossing.clone();
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+    public void swapvolgende(int index){
+        for(int i=index+1; i<aantalelements;i++){
+            swap(index,i);                      //alles swappen rechts van character
+            if(!controlleerAlles()){
+             //   System.out.println("bla");
+             swap(index,i);
+            }
+
+            //Beste oplossing zetten
+            else{
+                besteoplossing = oplossing.clone();
+            }
+
+            System.out.println(new String(oplossing,0,aantalelements));
+
+
+        }
+    }
+
 
     public void maakinitieleopl(){
         oplossing = new char[aantalelements];
@@ -150,23 +267,34 @@ public class LocalSearchHeuristiek1 {
         for(int i=0; i<lijst.size();i++){
             oplossing[i] =  lijst.get(i);
         }
-        intioplossingmap();         //alle huidige combinaties mappen
-
-      //  besteoplossing = oplossing.clone();
-      //  bestefrequentiemap = new HashMap<String,Integer>(frequentiemap);
-
     }
 
-    public void swap(int index1, int index2){       //TODO NIET ALLES IN MAP STEKEN
-     //   Set nieuweposities = new HashSet();
+    public boolean controlleerAlles(){
+        aanwezigestrings.clear();
+        for(int i=0; i<aantalelements-lengte+1;i++){
+            String string = getstringpos(i);
+            if(uniqueCharacters(string)){
+                aanwezigestrings.add(string);               //adding to booleanset
+            }
+        }
 
-
-        char temp = oplossing [index1];
-        oplossing[index1] = oplossing [index2];
-        oplossing[index2] = temp;
-
-
+        if(aanwezigestrings.size()==combinationlist.size()){
+            validoplossing = true;
+            return true;
+        }
+        else{
+            return false;
+        }
     }
+
+
+
+
+
+
+
+
+
 
     public void randomswap(){
         int index1 = (int)(Math.random() * (aantalelements-lengte));      //random element tussen mogelijke indices
@@ -176,11 +304,8 @@ public class LocalSearchHeuristiek1 {
         addIndexToSet(indexset,index1);
         addIndexToSet(indexset,index2);
 
-        verlaagFrequenties(indexset);
-
         swap(index1,index2);
 
-        verhoogFrequenties(indexset);
 
     }
 
@@ -188,13 +313,12 @@ public class LocalSearchHeuristiek1 {
         //verander char[index]
 
         int index = (char)(Math.random() * (aantalelements-lengte));
-
         Set<Integer> indexset = new HashSet<Integer>();
         addIndexToSet(indexset,index);
 
-        verlaagFrequenties(indexset);
+
         oplossing[index] = (char)((Math.random() * lengte) +'1');      //naar random ander element
-        verhoogFrequenties(indexset);
+
 
 
     }
@@ -207,53 +331,10 @@ public class LocalSearchHeuristiek1 {
 
 
 
-
-    public boolean checkFeasible(){
-        for(int i=0; i<combinationlist.size();i++){
-            if (frequentiemap.get(combinationlist.get(i))==0){
-                return false;
-            }
-
-        }
-        return true;
-    }
-
-    public void intioplossingmap(){
-
-        oplossingmap.clear();
-        frequentiemap.clear();
-
-        for(int i=0; i<combinationlist.size();i++){
-            frequentiemap.put(combinationlist.get(i),0);
-        }
-
-        for(int i=0;i<aantalelements-lengte+1;i++){
-            String comb = getstringpos(i);
-            if(uniqueCharacters(comb)) {
-                oplossingmap.put(i, comb);
-                frequentiemap.merge(comb, 1, Integer::sum); //TODO snellere manier?
-            }
-        }
-    }
-
-
     //Methode dat string van bepaalde positie returned
     public String getstringpos(int index){              //TODO kan nog sneller?
        return new String(oplossing , index, lengte);
     }
-
-
-    public boolean controlleerAlles(){
-        oplossingstring = String.valueOf(oplossing);
-        for(int i=0; i<combinationlist.size();i++){
-            if(!oplossingstring.contains(combinationlist.get(i))){
-                return false;
-            }
-        }
-
-        return true;
-    }
-
 
 
 
@@ -268,34 +349,8 @@ public class LocalSearchHeuristiek1 {
             oplossing[j]= character ;
         }
 
-        intioplossingmap();
 
     }
-
-
-    public void updateOplossing(int index){  //oldcomb is oude value, die -1 in freq moet krijgen
-      String comb = getstringpos(index);
-
-      if(uniqueCharacters(comb)){           //enkel als combinationstring is steken in map
-
-        //UPDATEN OPLOSSING
-        oplossingmap.put(index,comb);
-        frequentiemap.merge(comb,1,Integer::sum);
-      }
-    }
-
-    public void printfrequentiemap(){
-        for(int i=0; i<combinationlist.size();i++){
-            System.out.println(combinationlist.get(i) + ": " + frequentiemap.get(combinationlist.get(i)));
-        }
-    }
-
-    public void printbestefrequentiemap(){
-        for(int i=0; i<combinationlist.size();i++){
-            System.out.println(combinationlist.get(i) + ": " + bestefrequentiemap.get(combinationlist.get(i)));
-        }
-    }
-
 
 
     public Set addIndexToSet(Set<Integer> set, int index){
@@ -313,50 +368,6 @@ public class LocalSearchHeuristiek1 {
             System.out.println(s);
         }
     }
-
-    public void verlaagFrequenties(Set<Integer> set){
-        for (Integer s : set) {
-            String comb = getstringpos(s);
-            if(uniqueCharacters(comb)) {
-                frequentiemap.merge(comb, -1, Integer::sum);
-            }
-        }
-    }
-
-    public void verhoogFrequenties(Set<Integer> set){
-        for (Integer s : set) {
-            String comb = getstringpos(s);
-            if(uniqueCharacters(comb)) {
-                oplossingmap.put(s,comb);
-                frequentiemap.merge(comb, 1, Integer::sum);
-            }
-        }
-    }
-
-
-  /*  public int solutiongrade(){
-        int grade = 0;
-        for(int i=0; i<combinationlist.size();i++){
-            if(oplossingstring.contains(combinationlist.get(0))){
-                grade++;
-            }
-        }
-        return grade;
-    }
-*/
-
-    public int getOplossingGraad(){
-        int graad = 0;
-        for(int i=0; i<combinationlist.size();i++){
-            String comb = combinationlist.get(i);
-            if(frequentiemap.get(comb)!=0){
-                graad++;
-            }
-        }
-
-        return graad;
-    }
-
 
     //O[Nlog(N)]
     boolean uniqueCharacters(String str)
@@ -389,11 +400,3 @@ public class LocalSearchHeuristiek1 {
 
 
 
-    /* public void updatefrequencyMap(int index, String comb, String oldcomb){
-
-
-        frequentiemap.merge(oldcomb,-1,Integer::sum);
-        oplossingmap.put(index,comb);
-        frequentiemap.merge(comb,1,Integer::sum);
-    }
-*/
