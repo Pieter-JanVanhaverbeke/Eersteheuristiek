@@ -7,8 +7,8 @@ public class Main {
     public static void main(String[] args) {
         //List<String> superpermutation = new ArrayList<>();
         // String [] superpermutation3 = new String [9];
-        int permutationlengte = 3;
-        int superstringlengte = 9;
+        int permutationlengte = 4;
+        int superstringlengte = 33;
         Solution solution;
         Permutation permutation = new Permutation(permutationlengte);       //genereer permutatie
 

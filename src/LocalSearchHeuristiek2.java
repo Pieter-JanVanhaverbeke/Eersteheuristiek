@@ -24,17 +24,8 @@ public class LocalSearchHeuristiek2 {
         random = new Random(1);
     }
 
-    public void start() {
-        boolean oplossinggevonden = false;
-        //constructie oplossing
-        Collections.sort(combinationlist);
-
-        //eerst initiele opl
-        besteoplossing = maakinitieleopl();
-
-
 //123121321
- //       123412314231243121342132413214321
+    //       123412314231243121342132413214321
 
      /*   besteoplossing[0] = '1';
         besteoplossing[1] = '2';
@@ -48,13 +39,52 @@ public class LocalSearchHeuristiek2 {
 */
 
 
-       // goedeswap(0,besteoplossing);
-        insertpermutation(0,besteoplossing);
+    // goedeswap(0,besteoplossing);
+
+    public void start() {
+        boolean oplossinggevonden = false;
+        //constructie oplossing
+        Collections.sort(combinationlist);
+
+        //eerst initiele opl
+        besteoplossing = maakinitieleopl();
+        char[] oplossing = besteoplossing.clone();
+        int bestegraad = 0;
+
+
+        int aantalminuten = 1;
+        aantalminuten = aantalminuten*60000;
+        long end = System.currentTimeMillis() + aantalminuten;
+
+        while(System.currentTimeMillis() < end){
+
+
+            insertpermutationneighbour(oplossing);
+            int graad1 = getGraadVanOplossing(oplossing);
+            int graad2 = getGraadVanOplossing(besteoplossing);
+
+            if(graad1>graad2){
+                besteoplossing = oplossing.clone();
+                bestegraad = graad1;
+                System.out.println(graad1);
+            }
+           else if(graad1==graad2){
+               int graad11 = getGraadVanOplossing2(oplossing);
+               int graad22 = getGraadVanOplossing2(besteoplossing);
+
+               if(graad11>graad22){
+                   besteoplossing = oplossing.clone();
+               }
+            }
+        }
 
         System.out.println("finale oplossing: " + new String(besteoplossing,0,aantalelements));
+        System.out.println("graad: " + getGraadVanOplossing(besteoplossing));
 
 
     }
+
+
 
 
     public boolean swap(int index1, int index2,char[] oplossing){       //TODO NIET ALLES IN MAP STEKEN
@@ -88,25 +118,40 @@ public class LocalSearchHeuristiek2 {
         }
     }
 
-    public void insertpermutation(int index, char []oplossing){
+
+
+
+    public void insertpermutationrandom(char []oplossing){
         //TODO NIET MEER RANDOM
-        index = random.nextInt(aantalelements-lengte-1);
-        System.out.println(index);
+        int index = random.nextInt(aantalelements-lengte);
 
 
         String permutation = getNodigePermutation(oplossing);
-        System.out.println(permutation);
         char [] elements = permutation.toCharArray();
-        for(int i=index; i<index+lengte;i++){                 //INVOEGEN PERMUTATIE
-            oplossing[i] = elements[i];
+        for(int i=0; i<lengte;i++){                 //INVOEGEN PERMUTATIE
+            oplossing[index+i] = elements[i];
         }
-
-
     }
 
+    public void insertpermutationneighbour(char []oplossing){
+        String permutation = getNodigePermutation(oplossing);
+        for(int i=0; i<aantalelements-lengte;i++){
+            String string = getstringpos(i,oplossing);
+            if(!uniqueCharacters(string)){
+                insertpermutation(i,permutation,oplossing);
+            }
+        }
+    }
+
+    public void insertpermutation(int index,String permutation,char []oplossing){
+        char [] elements = permutation.toCharArray();
+        for(int i=0; i<lengte;i++){                 //INVOEGEN PERMUTATIE
+            oplossing[index+i] = elements[i];
+        }
+    }
 
     public boolean controlleerAlles(char [] oplossing){
-        Set<String> aanwezigestrings = new HashSet<String>();
+        Set<String> aanwezigestrings = new HashSet<>();
         for(int i=0; i<aantalelements-lengte+1;i++){
             String string = getstringpos(i,oplossing);
             if(uniqueCharacters(string)){
@@ -118,7 +163,6 @@ public class LocalSearchHeuristiek2 {
             return true;
         }
         return false;
-
     }
 
     public String getNodigePermutation(char [] oplossing){
@@ -134,7 +178,8 @@ public class LocalSearchHeuristiek2 {
         combinaties.removeAll(aanwezigestrings);
 
         if(combinaties.size()==0){
-            return combinationlist.get(0);
+           int randomnodige = random.nextInt(combinationlist.size());
+            return combinationlist.get(randomnodige);
         }
 
         return combinaties.get(0);
