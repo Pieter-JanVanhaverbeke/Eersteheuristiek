@@ -80,6 +80,7 @@ public class LocalSearchHeuristiek1 {
     public void start() {
         boolean oplossinggevonden = false;
         //constructie oplossing
+        Collections.sort(combinationlist);
 
         //eerst initiele opl
         maakinitieleopl();
@@ -92,15 +93,19 @@ public class LocalSearchHeuristiek1 {
         besteoplossing[2] = '2';
         besteoplossing[3] = '2';
         besteoplossing[4] = '2';
-        besteoplossing[5] = '3';
+        besteoplossing[5] = '2';
         besteoplossing[6] = '3';
         besteoplossing[7] = '3';
         besteoplossing[8] = '3';
-        Collections.sort(combinationlist);
+        oplossing = besteoplossing.clone();
 
+    //   String bla = new String(besteoplossing,0,aantalelements);
 
-        recursieswap(0);
+        goedeswap(0,oplossing);
+        System.out.println("valid: " + validoplossing );
         System.out.println("finale oplossing: " + new String(besteoplossing,0,aantalelements));
+
+
     }
 
        /* for(int i=0; i<combinationlist.size();i++){
@@ -127,6 +132,14 @@ if(controlleerAlles()){
         System.out.println("finale oplossing: " + new String(besteoplossing,0,aantalelements));
 */
 
+    public void change(int index, char character){
+        oplossing[index] = character;
+    }
+
+
+
+
+
 
     public void swap(int index1, int index2){       //TODO NIET ALLES IN MAP STEKEN
         char temp = oplossing [index1];
@@ -134,16 +147,43 @@ if(controlleerAlles()){
         oplossing[index2] = temp;
     }
 
+    public void swap(int index1, int index2,char[] oplossing){       //TODO NIET ALLES IN MAP STEKEN
+        char temp = oplossing [index1];
+        oplossing[index1] = oplossing [index2];
+        oplossing[index2] = temp;
+    }
+
+
+    public void goedeswap(int index,char [] oplossing){
+
+        for(int i=index;i<aantalelements-1;i++){
+            char [] opl = oplossing;
+           // for(int j=index+1; j<aantalelements-1;j++){
+                swap(index,i+1,opl);
+            System.out.println(new String(oplossing,0,aantalelements));
+            if(controlleerAlles()){
+                besteoplossing = opl.clone();
+
+            }
+
+            goedeswap(index+1,opl);
+         //   }
+
+        }
+    }
+
 
     public void recursieswap(int index){
-        for(int i=index;i<oplossing.length-1;i++){
-            for(int j=index+1; j<oplossing.length-1;j++){
+        for(int i=index;i<aantalelements-1;i++){
+            System.out.println(i);
+            for(int j=index+1; j<aantalelements-1;j++){
                 swap(i,j);
                 //controleren
                 if(controlleerAlles()){
                     besteoplossing = oplossing.clone();
                 }
-                System.out.println( new String(oplossing,0,aantalelements));
+           //     System.out.println( new String(oplossing,0,aantalelements));
+
             }
             recursieswap(index+1);  //plaats opschuiven
 
@@ -187,9 +227,6 @@ if(controlleerAlles()){
         change(index,besteoplossing[index]);        //Reverten van changes
     }
 
-    public void change(int index, char character){
-        oplossing[index] = character;
-    }
 
     public void swapAlles(){
      /*   for(int i=0; i<aantalelements;i++){
@@ -279,12 +316,36 @@ if(controlleerAlles()){
         }
 
         if(aanwezigestrings.size()==combinationlist.size()){
+            System.out.println(aanwezigestrings.size());
             validoplossing = true;
             return true;
+       /*     for (String s : aanwezigestrings) {
+                System.out.println(s);
+            }*/
         }
-        else{
             return false;
+
+    }
+
+    public boolean controlleerAlles(char [] oplossing){
+        aanwezigestrings.clear();
+        for(int i=0; i<aantalelements-lengte+1;i++){
+            String string = getstringpos(i);
+            if(uniqueCharacters(string)){
+                aanwezigestrings.add(string);               //adding to booleanset
+            }
         }
+
+        if(aanwezigestrings.size()==combinationlist.size()){
+            System.out.println(aanwezigestrings.size());
+            validoplossing = true;
+            return true;
+       /*     for (String s : aanwezigestrings) {
+                System.out.println(s);
+            }*/
+        }
+        return false;
+
     }
 
 
