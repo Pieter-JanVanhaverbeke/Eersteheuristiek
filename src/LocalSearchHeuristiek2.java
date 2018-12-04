@@ -1,5 +1,11 @@
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.primitives.Chars;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jgrapht.util.MathUtil;
 
+import java.sql.Array;
 import java.util.*;
 
 public class LocalSearchHeuristiek2 {
@@ -44,84 +50,69 @@ public class LocalSearchHeuristiek2 {
 
     public void start2(){
        char[] oplossing = maakinitieleopl();
-     /*   besteoplossing[0] = '2';
+        besteoplossing[0] = '2';
         besteoplossing[1] = '1';
         besteoplossing[2] = '1';
-        besteoplossing[3] = '1';
+        besteoplossing[3] = '3';
         besteoplossing[4] = '2';
         besteoplossing[5] = '3';
         besteoplossing[6] = '2';
         besteoplossing[7] = '2';
         besteoplossing[8] = '3';
-*/
-  //      oplossing = besteoplossing.clone();
+
+        oplossing = besteoplossing.clone();
 
       //  char [] oplossing = besteoplossing.clone();
         //permuteswap(oplossing,0,aantalelements-1);
-        goedeswap(0,oplossing);
+       // goedeswap(0,oplossing);
+
+
+        //OPLOSSING SORTEREN
+
+        Arrays.sort(oplossing);
+      //  goedeswap(0,oplossing);
+//        permutatiesswap(oplossing);
+     //   printAllPermutations(Arrays.toString(oplossing));
         System.out.println("finale oplossing: " + new String(besteoplossing,0,aantalelements));
-
-
     }
 
-    public void start() {
-        boolean oplossinggevonden = false;
-        //constructie oplossing
-        Collections.sort(combinationlist);
 
-        //eerst initiele opl
-        besteoplossing = maakinitieleopl();
-        char[] oplossing = besteoplossing.clone();
-        int bestegraad = 0;
-
-
-        int aantalminuten = 1;
-        aantalminuten = aantalminuten*60000;
-        long end = System.currentTimeMillis() + aantalminuten;
-
-        while(System.currentTimeMillis() < end){
-
-
-            insertpermutationrandom(oplossing);
-            int graad1 = getGraadVanOplossing(oplossing);
-            int graad2 = getGraadVanOplossing(besteoplossing);
-
-            if(graad1>graad2){
-                besteoplossing = oplossing.clone();
-                bestegraad = graad1;
-                System.out.println(graad1);
-            }
-           else if(graad1==graad2){
-               int graad11 = getGraadVanOplossing2(oplossing);
-               int graad22 = getGraadVanOplossing2(besteoplossing);
-
-               if(graad11>graad22){
-                   besteoplossing = oplossing.clone();
-               }
-            }
-        }
-
-        System.out.println("finale oplossing: " + new String(besteoplossing,0,aantalelements));
-        System.out.println("graad: " + getGraadVanOplossing(besteoplossing));
-
-
+    public void Localsearch(){
+        swap()
     }
 
 
 
 
-    public boolean swap(char[] oplossing,int index1, int index2){       //TODO NIET ALLES IN MAP STEKEN
-        if(oplossing[index1]!=oplossing[index2]){
+
+
+    public void swap(char[] oplossing,int index1, int index2){       //TODO NIET ALLES IN MAP STEKEN
             char temp = oplossing [index1];
             oplossing[index1] = oplossing [index2];
             oplossing[index2] = temp;
-            return true;
         }
 
-        return true;
-    }
 
-    public char[] swap2(char[] oplossing,int index1, int index2){       //TODO NIET ALLES IN MAP STEKEN
+   /* public void goedeswap(int index,char [] oplossing){     //TODO LIBRARY GEBRUIKEN???
+
+        for(int i=index;i<aantalelements-1;i++){
+            char [] neighbouropl = oplossing.clone();
+
+            boolean nuttigeswap = swap(neighbouropl,index,i+1);
+
+         //   System.out.println(new String(neighbouropl,0,aantalelements));
+
+            if(controlleerAlles(neighbouropl)){
+                besteoplossing = neighbouropl.clone();
+            }
+
+            if(nuttigeswap){
+                goedeswap(index+1,neighbouropl);            //recursie bij nuttige swap
+            }
+        }
+    }
+*/
+    public char[] swap2(char[] oplossing,int index1, int index2){
             char temp = oplossing [index1];
             oplossing[index1] = oplossing [index2];
             oplossing[index2] = temp;
@@ -144,25 +135,7 @@ public class LocalSearchHeuristiek2 {
 
     }
 
-    public void goedeswap(int index,char [] oplossing){
 
-        for(int i=index;i<aantalelements-1;i++){
-            char [] neighbouropl = oplossing.clone();
-
-            boolean nuttigeswap = swap(neighbouropl,index,i+1);
-
-            System.out.println(new String(neighbouropl,0,aantalelements));
-
-            if(controlleerAlles(neighbouropl)){
-                besteoplossing = neighbouropl.clone();
-            }
-
-            if(nuttigeswap){
-                goedeswap(index+1,neighbouropl);            //recursie bij nuttige swap
-            }
-
-        }
-    }
 
 
 
@@ -342,4 +315,98 @@ public class LocalSearchHeuristiek2 {
     public void setCombinationlist(List<String> combinationlist) {
         this.combinationlist = combinationlist;
     }
+
+
+    public void start5() {
+        boolean oplossinggevonden = false;
+        //constructie oplossing
+        Collections.sort(combinationlist);
+
+        //eerst initiele opl
+        besteoplossing = maakinitieleopl();
+        char[] oplossing = besteoplossing.clone();
+        int bestegraad = 0;
+
+
+        int aantalminuten = 1;
+        aantalminuten = aantalminuten * 60000;
+        long end = System.currentTimeMillis() + aantalminuten;
+
+        while (System.currentTimeMillis() < end) {
+
+
+            insertpermutationrandom(oplossing);
+            int graad1 = getGraadVanOplossing(oplossing);
+            int graad2 = getGraadVanOplossing(besteoplossing);
+
+            if (graad1 > graad2) {
+                besteoplossing = oplossing.clone();
+                bestegraad = graad1;
+                System.out.println(graad1);
+            } else if (graad1 == graad2) {
+                int graad11 = getGraadVanOplossing2(oplossing);
+                int graad22 = getGraadVanOplossing2(besteoplossing);
+
+                if (graad11 > graad22) {
+                    besteoplossing = oplossing.clone();
+                }
+            }
+        }
+
+        System.out.println("finale oplossing: " + new String(besteoplossing, 0, aantalelements));
+        System.out.println("graad: " + getGraadVanOplossing(besteoplossing));
+
+
+    }
+
+
+
+
+
 }
+
+ /*   public void per(char [] oplossing){
+        List<Character> strChars = Chars.asList(oplossing);
+        Collection<List<Character>> charPermutations = CollectionUtils.permutations(strChars);
+
+        List<String> result = new ArrayList<>();
+        for (List<Character> chars : charPermutations) {
+          //  System.out.println(StringUtils.join(chars, ""));
+            result.add(StringUtils.join(chars, ""));
+         //   neighbourhoodopl = result.toArray();
+
+        }
+
+    }
+
+
+    public void permutatiesswap(char [] oplossing) {
+        List<Character> strChars = Chars.asList(oplossing);
+        Collection<List<Character>> charPermutations = Collections2.permutations(strChars);
+
+
+        List<List<Character>> myTwoDimensionalArray = new ArrayList<>(charPermutations);
+
+        for (int dim1 = 0; dim1 < myTwoDimensionalArray.size(); dim1++) {
+
+            StringBuilder dim2 = new StringBuilder();
+            // Here I build a string to display the numbers without the brackets (not necessary)
+            for (int i = 0; i < myTwoDimensionalArray.get(dim1).size(); i++) {
+                if (i > 0) {
+                    dim2.append(",");
+                }
+                dim2.append(myTwoDimensionalArray.get(dim1).get(i));
+            }
+
+
+         //   System.out.println(dim2);
+
+        }
+    }
+
+    public void persum(){
+   //     Collections2.permutations(str)
+    }
+
+
+*/
