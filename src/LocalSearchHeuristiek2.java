@@ -1,29 +1,28 @@
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
-import com.google.common.primitives.Chars;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.jgrapht.util.MathUtil;
 
-import java.sql.Array;
 import java.util.*;
 
 public class LocalSearchHeuristiek2 {
-    private char [] besteoplossing;
+    private char [] bestesolution;
     private int aantalelements;
     private int lengte;
     private List<String> combinationlist;
+    private int bestescore;
+    private char[] huidigesolution;
+    private char[] neighbourhoodsolution;
+
     Random random;
 
     public LocalSearchHeuristiek2() {
-        besteoplossing=null;
+        bestesolution =null;
         aantalelements=0;
         lengte=0;
         random = new Random(1);
+        bestescore = 0;
     }
 
     public LocalSearchHeuristiek2(int aantalelements, int lengte, List<String> combinationlist) {
-        besteoplossing= new char[aantalelements];
+        bestesolution = new char[aantalelements];
         this.aantalelements=aantalelements;
         this.lengte = lengte;
         this.combinationlist = combinationlist;
@@ -33,36 +32,36 @@ public class LocalSearchHeuristiek2 {
 //123121321
     //       123412314231243121342132413214321
 
-     /*   besteoplossing[0] = '1';
-        besteoplossing[1] = '2';
-        besteoplossing[2] = '1';
-        besteoplossing[3] = '2';
-        besteoplossing[4] = '3';
-        besteoplossing[5] = '2';
-        besteoplossing[6] = '3';
-        besteoplossing[7] = '2';
-        besteoplossing[8] = '3';
+     /*   bestesolution[0] = '1';
+        bestesolution[1] = '2';
+        bestesolution[2] = '1';
+        bestesolution[3] = '2';
+        bestesolution[4] = '3';
+        bestesolution[5] = '2';
+        bestesolution[6] = '3';
+        bestesolution[7] = '2';
+        bestesolution[8] = '3';
 */
 
 
-    // goedeswap(0,besteoplossing);
+    // goedeswap(0,bestesolution);
 
 
     public void start2(){
        char[] oplossing = maakinitieleopl();
-        besteoplossing[0] = '2';
-        besteoplossing[1] = '1';
-        besteoplossing[2] = '1';
-        besteoplossing[3] = '3';
-        besteoplossing[4] = '2';
-        besteoplossing[5] = '3';
-        besteoplossing[6] = '2';
-        besteoplossing[7] = '2';
-        besteoplossing[8] = '3';
+        bestesolution[0] = '2';
+        bestesolution[1] = '1';
+        bestesolution[2] = '1';
+        bestesolution[3] = '3';
+        bestesolution[4] = '2';
+        bestesolution[5] = '3';
+        bestesolution[6] = '2';
+        bestesolution[7] = '2';
+        bestesolution[8] = '3';
 
-        oplossing = besteoplossing.clone();
+        oplossing = bestesolution.clone();
 
-      //  char [] oplossing = besteoplossing.clone();
+      //  char [] oplossing = bestesolution.clone();
         //permuteswap(oplossing,0,aantalelements-1);
        // goedeswap(0,oplossing);
 
@@ -73,15 +72,34 @@ public class LocalSearchHeuristiek2 {
       //  goedeswap(0,oplossing);
 //        permutatiesswap(oplossing);
      //   printAllPermutations(Arrays.toString(oplossing));
-        System.out.println("finale oplossing: " + new String(besteoplossing,0,aantalelements));
+        System.out.println("finale oplossing: " + new String(bestesolution,0,aantalelements));
     }
 
+    public void localSearch(){
+         bestescore = 0;
+        int huidigescore = 0;
+        while(bestescore<combinationlist.size()){
+  //          hillclimbing();
 
-    public void Localsearch(){
-        swap()
+
+        }
+
+        System.out.println("De beste oplossing: " + Arrays.toString(bestesolution));
+
+
     }
 
+   /* public void hillclimbing(){
+        huidigesolution = bestesolution.getBestNeighbour();
+            int huidigescore = huidigesolution.;
+            if (huidigescore < bestescore) {
+                bestescore = huidigescore;
+                bestesolution = new Solution(huidigesolution);
+                bestesolution.printStats();
+            }
+    }
 
+*/
 
 
 
@@ -103,7 +121,7 @@ public class LocalSearchHeuristiek2 {
          //   System.out.println(new String(neighbouropl,0,aantalelements));
 
             if(controlleerAlles(neighbouropl)){
-                besteoplossing = neighbouropl.clone();
+                bestesolution = neighbouropl.clone();
             }
 
             if(nuttigeswap){
@@ -284,12 +302,13 @@ public class LocalSearchHeuristiek2 {
     }
 
 
-    public char[] getBesteoplossing() {
-        return besteoplossing;
+
+    public char[] getBestesolution() {
+        return bestesolution;
     }
 
-    public void setBesteoplossing(char[] besteoplossing) {
-        this.besteoplossing = besteoplossing;
+    public void setBestesolution(char[] bestesolution) {
+        this.bestesolution = bestesolution;
     }
 
     public int getAantalelements() {
@@ -323,8 +342,8 @@ public class LocalSearchHeuristiek2 {
         Collections.sort(combinationlist);
 
         //eerst initiele opl
-        besteoplossing = maakinitieleopl();
-        char[] oplossing = besteoplossing.clone();
+        bestesolution = maakinitieleopl();
+        char[] oplossing = bestesolution.clone();
         int bestegraad = 0;
 
 
@@ -337,24 +356,24 @@ public class LocalSearchHeuristiek2 {
 
             insertpermutationrandom(oplossing);
             int graad1 = getGraadVanOplossing(oplossing);
-            int graad2 = getGraadVanOplossing(besteoplossing);
+            int graad2 = getGraadVanOplossing(bestesolution);
 
             if (graad1 > graad2) {
-                besteoplossing = oplossing.clone();
+                bestesolution = oplossing.clone();
                 bestegraad = graad1;
                 System.out.println(graad1);
             } else if (graad1 == graad2) {
                 int graad11 = getGraadVanOplossing2(oplossing);
-                int graad22 = getGraadVanOplossing2(besteoplossing);
+                int graad22 = getGraadVanOplossing2(bestesolution);
 
                 if (graad11 > graad22) {
-                    besteoplossing = oplossing.clone();
+                    bestesolution = oplossing.clone();
                 }
             }
         }
 
-        System.out.println("finale oplossing: " + new String(besteoplossing, 0, aantalelements));
-        System.out.println("graad: " + getGraadVanOplossing(besteoplossing));
+        System.out.println("finale oplossing: " + new String(bestesolution, 0, aantalelements));
+        System.out.println("graad: " + getGraadVanOplossing(bestesolution));
 
 
     }
