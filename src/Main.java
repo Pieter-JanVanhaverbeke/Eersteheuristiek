@@ -18,14 +18,14 @@ public class Main {
        // int factorial = (int) MathUtil.factorial(4-1);
       //  System.out.println("factorial: " + factorial);
 
-        System.out.println("oplossing heuristiek 1: ");
+   //     System.out.println("oplossing heuristiek 1: ");
 
-        Graafheuristiek1 opl1 = new Graafheuristiek1(permutation.getPermutationlijst());
-        String opl = opl1.start();
+   //     Graafheuristiek1 opl1 = new Graafheuristiek1(permutation.getPermutationlijst());
+   //     String opl = opl1.start();
 
-        solution = new Solution(opl, permutationlengte);
-        solution.setPermutationlijst(permutation.getPermutationlijst());
-        System.out.println(solution.ControlleerAlles());                    //uitprinten feasible solution
+     //   solution = new Solution(opl, permutationlengte);
+     //   solution.setPermutationlijst(permutation.getPermutationlijst());
+     //   System.out.println(solution.ControlleerAlles());                    //uitprinten feasible solution
 
         System.out.println();
         System.out.println();

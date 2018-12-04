@@ -1,6 +1,8 @@
 import org.jgrapht.util.MathUtil;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Hillclimbing {
     private Solution bestesolution;
@@ -14,6 +16,8 @@ public class Hillclimbing {
     private int aantalElements;
     private int lengte;
     private int bestegraad;
+
+    Random random = new Random(1);
 
     public Hillclimbing(int aantalElements,int lengte) {
         bestesolution = null;
@@ -30,9 +34,25 @@ public class Hillclimbing {
 
     }
 
-    public void start(){
-        
+    public void start(int aantalminuten){
+        aantalminuten = aantalminuten*60000;
+        long end = System.currentTimeMillis() + aantalminuten;
+
+        bestesolution.initialiseerrandom(random);      //TODO INTIALISEREN
+
+        while (System.currentTimeMillis() < end) {
+            hillclimbing();
+        }
+        System.out.println("de beste oplossing is: " + Arrays.toString(bestesolution.getSolutionarray()));
     }
+
+    public void hillclimbing(){
+        huidigesolution = new Solution(bestesolution);
+
+
+    }
+
+
 
 
     public Solution getBestesolution() {

@@ -1,5 +1,7 @@
 import java.util.*;
 
+import static org.apache.commons.lang3.RandomUtils.nextInt;
+
 public class Solution {
     private char [] solutionarray;
     private int lengte;
@@ -11,6 +13,13 @@ public class Solution {
         this.lengte = lengte;
         this.aantalelements = aantalelements;
         this.combinationlistsize = combinationlistsize;
+    }
+
+    public Solution(Solution solution){
+        solutionarray = solution.getSolutionarray().clone();
+        this.lengte = solution.getLengte();
+        this.aantalelements = solution.aantalelements;
+        this.combinationlistsize = solution.getCombinationlistsize();
     }
 
                 //VERSCHILLENDE MOVES
@@ -34,7 +43,27 @@ public class Solution {
     }
 
 
+    //INTITIALISEREN
+    public void initialiseerrandom(Random random){
+        solutionarray = new char [lengte];
+        for(int i=0; i<aantalelements;i++){
+            char nummer = (char) (random.nextInt(aantalelements) + '1');
+            solutionarray[i] = nummer;
+        }
+    }
 
+    public void intitialiseerFeasible(){
+        solutionarray[0] = '2';
+        solutionarray[1] = '1';
+        solutionarray[2] = '1';
+        solutionarray[3] = '3';
+        solutionarray[4] = '2';
+        solutionarray[5] = '3';
+        solutionarray[6] = '2';
+        solutionarray[7] = '2';
+        solutionarray[8] = '3';
+
+    }
 
 
     //CHECKEN OF OPLOSSING FEASIBLE IS
