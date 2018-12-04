@@ -18,10 +18,13 @@ public class Solution {
     }
 
     public Solution(Solution solution){
-        solutionarray = solution.getSolutionarray().clone();
-        this.lengte = solution.getLengte();
+        this.lengte = solution.lengte;
         this.aantalelements = solution.aantalelements;
         this.combinationlistsize = solution.getCombinationlistsize();
+        solutionarray = solution.getSolutionarray().clone();
+       // solutionarray = new char [aantalelements];
+      //  System.arraycopy(solution.getSolutionarray(),0,solutionarray,0,lengte);
+
         this.score = -1;
     }
 
@@ -41,16 +44,16 @@ public class Solution {
     }
 
 
-    public String getstringpos(int index, char [] oplossing){              //TODO kan nog sneller?
-        return new String(oplossing , index, lengte);
+    public String getstringpos(int index){              //TODO kan nog sneller?
+        return new String(solutionarray , index, lengte);
     }
 
 
     //INTITIALISEREN
     public void initialiseerrandom(Random random){
-        solutionarray = new char [lengte];
-        for(int i=0; i<lengte;i++){
-            char nummer = (char) (random.nextInt(aantalelements) + '1');
+        solutionarray = new char [aantalelements];
+        for(int i=0; i<aantalelements;i++){
+            char nummer = (char) (random.nextInt(lengte) + '1');
             solutionarray[i] = nummer;
         }
     }
@@ -73,10 +76,10 @@ public class Solution {
 
     //CHECKEN OF OPLOSSING FEASIBLE IS
 
-    public boolean controlleerAlles(char [] oplossing){
+    public boolean controlleerAlles(){
         Set<String> aanwezigestrings = new HashSet<>();
         for(int i=0; i<aantalelements-lengte+1;i++){
-            String string = getstringpos(i,oplossing);
+            String string = getstringpos(i);
             if(uniqueCharacters(string)){
                 aanwezigestrings.add(string);               //adding to booleanset
             }
@@ -93,10 +96,11 @@ public class Solution {
 
     public int getGraadVanOplossing(){
         Set<String> aanwezigestrings = new HashSet<String>();
-        for(int i=0; i<lengte-aantalelements+1;i++){
-            String string = getstringpos(i,solutionarray);
+        for(int i=0; i<aantalelements-lengte+1;i++){
+            String string = getstringpos(i);
             if(uniqueCharacters(string)){
                 aanwezigestrings.add(string);               //adding to booleanset
+
             }
         }
 

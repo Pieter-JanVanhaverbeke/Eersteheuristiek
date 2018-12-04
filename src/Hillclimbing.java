@@ -1,5 +1,6 @@
 import org.jgrapht.util.MathUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -19,7 +20,7 @@ public class Hillclimbing {
 
     Random random = new Random(1);
 
-    public Hillclimbing(int aantalElements,int lengte) {
+    public Hillclimbing(int lengte, int aantalElements) {
         bestescore = 0;
         huidigescore = 0;
         neighbourhoodscore = 0;
@@ -28,16 +29,22 @@ public class Hillclimbing {
         this.lengte = lengte;
         this.bestegraad = (int) MathUtil.factorial(aantalElements-1);
 
-        bestesolution = new Solution(aantalElements,lengte,bestegraad);
-        huidigesolution = new Solution(bestesolution);
-        neighbourhoodsolution = new Solution(bestesolution);
+        bestesolution = new Solution(lengte,aantalElements,bestegraad);
+        huidigesolution = new Solution(lengte,aantalElements,bestegraad);
+        neighbourhoodsolution = new Solution(lengte,aantalElements,bestegraad);
     }
 
     public void start(int aantalminuten){
-        aantalminuten = aantalminuten*6000;
+        aantalminuten = aantalminuten*600;
         long end = System.currentTimeMillis() + aantalminuten;
 
-        bestesolution.initialiseerrandom(random);      //TODO INTIALISEREN
+       bestesolution.initialiseerrandom(random);      //TODO INTIALISEREN
+ //       bestesolution.intitialiseerFeasible();
+       neighbourhoodsolution = new Solution(bestesolution);
+       huidigesolution = new Solution(bestesolution);
+
+      //  huidigesolution.initialiseerrandom(random);
+   //     huidigesolution.intitialiseerFeasible();
 
         System.out.println(bestesolution);
 
@@ -45,18 +52,25 @@ public class Hillclimbing {
             hillclimbing();
         }
         System.out.println("de beste oplossing is: " + Arrays.toString(bestesolution.getSolutionarray()));
+        System.out.println("de graad is: " + bestesolution.getGraadVanOplossing());
     }
 
     public void hillclimbing(){
         neighbourhoodsolution = new Solution((huidigesolution));
-        int getal = random.nextInt(lengte);
+        int getal = random.nextInt(aantalElements);
         neighbourhoodsolution = searchNeighbourhood(getal);
 
         if(neighbourhoodsolution.getGraadVanOplossing()>=huidigesolution.getGraadVanOplossing()){
             huidigesolution = new Solution(neighbourhoodsolution);
             bestesolution = new Solution(neighbourhoodsolution);
-            System.out.println(bestesolution.toString());
+            if(bestescore!=bestesolution.getGraadVanOplossing()){
+                bestescore=bestesolution.getGraadVanOplossing();
+                System.out.println(bestescore);
+            }
         }
+
+
+
     }
 
 
@@ -67,6 +81,10 @@ public class Hillclimbing {
         int besteneighbourhoodscore = -1;
         int neighbourhoodscore = 0;
         for(int i=0; i<aantalElements;i++){
+
+            //ENKEL NUTTIGE SWAPS UITVOEREN
+            if(i!=index){
+
             neighbourhoodsolution = new Solution(huidigesolution);
             neighbourhoodsolution.swap(index,i);
             neighbourhoodscore = getNeighbourhoodscore();
@@ -74,6 +92,8 @@ public class Hillclimbing {
             if(neighbourhoodsolution.getGraadVanOplossing()>besteneighbourhoodscore){
                 besteneighbourhoodscore = neighbourhoodscore;
                 besteNeighbourhoodSolution = new Solution(neighbourhoodsolution);
+            }
+
             }
         }
 
