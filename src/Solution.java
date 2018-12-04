@@ -43,6 +43,10 @@ public class Solution {
         }
     }
 
+    public void change(int index, char c){
+        solutionarray[index] = c;
+    }
+
 
     public String getstringpos(int index){              //TODO kan nog sneller?
         return new String(solutionarray , index, lengte);

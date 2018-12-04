@@ -18,7 +18,9 @@ public class Hillclimbing {
     private int lengte;
     private int bestegraad;
 
-    Random random = new Random(1);
+    private int teller;
+
+    Random random = new Random(4);
 
     public Hillclimbing(int lengte, int aantalElements) {
         bestescore = 0;
@@ -28,6 +30,7 @@ public class Hillclimbing {
         this.aantalElements = aantalElements;
         this.lengte = lengte;
         this.bestegraad = (int) MathUtil.factorial(aantalElements-1);
+        this.teller = 0;
 
         bestesolution = new Solution(lengte,aantalElements,bestegraad);
         huidigesolution = new Solution(lengte,aantalElements,bestegraad);
@@ -56,9 +59,18 @@ public class Hillclimbing {
     }
 
     public void hillclimbing(){
+        teller++;
         neighbourhoodsolution = new Solution((huidigesolution));
-        int getal = random.nextInt(aantalElements);
-        neighbourhoodsolution = searchNeighbourhood(getal);
+
+
+        if(teller%100==0){
+            char c = (char) (random.nextInt(lengte) + '1');
+            neighbourhoodsolution = searchNeighbourhoodinsert(c);
+        }
+        else {
+            int getal = random.nextInt(aantalElements);
+            neighbourhoodsolution = searchNeighbourhoodswap(getal);
+        }
 
         if(neighbourhoodsolution.getGraadVanOplossing()>=huidigesolution.getGraadVanOplossing()){
             huidigesolution = new Solution(neighbourhoodsolution);
@@ -74,7 +86,7 @@ public class Hillclimbing {
     }
 
 
-    public Solution searchNeighbourhood(int index){
+    public Solution searchNeighbourhoodswap(int index){
         Solution besteNeighbourhoodSolution = null;
 
 
@@ -96,6 +108,31 @@ public class Hillclimbing {
 
             }
         }
+
+        return besteNeighbourhoodSolution;
+    }
+
+
+    public Solution searchNeighbourhoodinsert(char c){
+        Solution besteNeighbourhoodSolution = null;
+
+
+        int besteneighbourhoodscore = -1;
+        int neighbourhoodscore = 0;
+        for(int i=0; i<aantalElements;i++){
+
+            //ENKEL NUTTIGE SWAPS UITVOEREN
+                neighbourhoodsolution = new Solution(huidigesolution);
+                neighbourhoodsolution.change(i,c);
+                neighbourhoodscore = getNeighbourhoodscore();
+
+                if(neighbourhoodsolution.getGraadVanOplossing()>besteneighbourhoodscore){
+                    besteneighbourhoodscore = neighbourhoodscore;
+                    besteNeighbourhoodSolution = new Solution(neighbourhoodsolution);
+                }
+
+            }
+
 
         return besteNeighbourhoodSolution;
     }

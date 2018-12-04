@@ -6,12 +6,12 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         int permutationlengte = 4;
-        int superstringlengte = 33;
+        int superstringlengte = 34;
         Permutation permutation = new Permutation(permutationlengte);       //genereer permutatie
 
 
         Hillclimbing hillclimbing = new Hillclimbing(permutationlengte,superstringlengte);
-        hillclimbing.start(60);      //aantalseconden
+        hillclimbing.start(100);      //aantalseconden
 
 
 
