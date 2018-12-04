@@ -46,12 +46,12 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Oplossingen" value="81" />
-          <entry key="java" value="16577" />
+          <entry key="java" value="17590" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="16577" />
+          <entry key="JAVA" value="17590" />
           <entry key="PLAIN_TEXT" value="81" />
         </counts>
       </usages-collector>
@@ -68,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="470">
-              <caret line="33" column="66" lean-forward="true" selection-start-line="33" selection-start-column="66" selection-end-line="33" selection-end-column="66" />
+            <state relative-caret-position="221">
+              <caret line="13" column="70" selection-start-line="13" selection-start-column="53" selection-end-line="13" selection-end-column="70" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -117,7 +117,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LocalSearchHeuristiek2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
+            <state relative-caret-position="738">
               <caret line="51" selection-start-line="51" selection-end-line="59" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -144,11 +144,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Hillclimbing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+            <state relative-caret-position="228">
+              <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#829#830#0" expanded="true" />
@@ -193,8 +193,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Solution.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+            <state relative-caret-position="3179">
+              <caret line="187" column="47" selection-start-line="187" selection-start-column="47" selection-end-line="187" selection-end-column="47" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1045#1046#0" expanded="true" />
@@ -215,6 +215,12 @@
                 <element signature="e#3604#3605#0" expanded="true" />
                 <element signature="e#3671#3672#0" expanded="true" />
                 <element signature="e#3733#3734#0" expanded="true" />
+                <element signature="e#4858#4859#0" expanded="true" />
+                <element signature="e#4886#4887#0" expanded="true" />
+                <element signature="e#4925#4926#0" expanded="true" />
+                <element signature="e#4959#4960#0" expanded="true" />
+                <element signature="e#5005#5006#0" expanded="true" />
+                <element signature="e#5059#5060#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -247,9 +253,9 @@
         <option value="$PROJECT_DIR$/src/LocalSearchHeuristiek1.java" />
         <option value="$PROJECT_DIR$/src/Oplossingen" />
         <option value="$PROJECT_DIR$/src/LocalSearchHeuristiek2.java" />
-        <option value="$PROJECT_DIR$/src/Hillclimbing.java" />
-        <option value="$PROJECT_DIR$/src/Solution.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/Solution.java" />
+        <option value="$PROJECT_DIR$/src/Hillclimbing.java" />
       </list>
     </option>
   </component>
@@ -302,7 +308,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543928712697" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543932629793" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -358,18 +364,18 @@
       <workItem from="1543747156995" duration="11341000" />
       <workItem from="1543819941731" duration="345000" />
       <workItem from="1543822319755" duration="13541000" />
-      <workItem from="1543911795065" duration="11986000" />
+      <workItem from="1543911795065" duration="14964000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115135000" />
+    <option name="totallyTimeSpent" value="118113000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.29194632" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29194632" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -378,7 +384,7 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.329718" />
       <window_info anchor="bottom" id="Terminal" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.31914893" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.31914893" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.50053304" side_tool="true" weight="0.31995663" />
       <window_info anchor="bottom" id="Database Changes" order="5" show_stripe_button="false" />
@@ -417,13 +423,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Oplossingen">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://D:/Data/jgrapht-1.2.0/jgrapht-1.2.0/lib/guava-24.1-jre.jar!/com/google/common/collect/Collections2.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="151">
@@ -435,6 +434,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SuperPermutation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -450,7 +456,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/LocalSearchHeuristiek2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
+        <state relative-caret-position="738">
           <caret line="51" selection-start-line="51" selection-end-line="59" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -476,10 +482,72 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Oplossingen">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Permutation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding>
+            <element signature="e#943#944#0" expanded="true" />
+            <element signature="e#982#983#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Solution.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3179">
+          <caret line="187" column="47" selection-start-line="187" selection-start-column="47" selection-end-line="187" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1045#1046#0" expanded="true" />
+            <element signature="e#1142#1143#0" expanded="true" />
+            <element signature="e#3035#3036#0" expanded="true" />
+            <element signature="e#3071#3072#0" expanded="true" />
+            <element signature="e#3129#3130#0" expanded="true" />
+            <element signature="e#3179#3180#0" expanded="true" />
+            <element signature="e#3229#3230#0" expanded="true" />
+            <element signature="e#3258#3259#0" expanded="true" />
+            <element signature="e#3299#3300#0" expanded="true" />
+            <element signature="e#3335#3336#0" expanded="true" />
+            <element signature="e#3373#3374#0" expanded="true" />
+            <element signature="e#3410#3411#0" expanded="true" />
+            <element signature="e#3467#3468#0" expanded="true" />
+            <element signature="e#3519#3520#0" expanded="true" />
+            <element signature="e#3562#3563#0" expanded="true" />
+            <element signature="e#3604#3605#0" expanded="true" />
+            <element signature="e#3671#3672#0" expanded="true" />
+            <element signature="e#3733#3734#0" expanded="true" />
+            <element signature="e#4858#4859#0" expanded="true" />
+            <element signature="e#4886#4887#0" expanded="true" />
+            <element signature="e#4925#4926#0" expanded="true" />
+            <element signature="e#4959#4960#0" expanded="true" />
+            <element signature="e#5005#5006#0" expanded="true" />
+            <element signature="e#5059#5060#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="70" selection-start-line="13" selection-start-column="53" selection-end-line="13" selection-end-column="70" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Hillclimbing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+        <state relative-caret-position="228">
+          <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#829#830#0" expanded="true" />
@@ -516,62 +584,6 @@
             <element signature="e#2338#2339#0" expanded="true" />
             <element signature="e#2387#2388#0" expanded="true" />
             <element signature="e#2431#2432#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Permutation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding>
-            <element signature="e#943#944#0" expanded="true" />
-            <element signature="e#982#983#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Solution.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1045#1046#0" expanded="true" />
-            <element signature="e#1142#1143#0" expanded="true" />
-            <element signature="e#3035#3036#0" expanded="true" />
-            <element signature="e#3071#3072#0" expanded="true" />
-            <element signature="e#3129#3130#0" expanded="true" />
-            <element signature="e#3179#3180#0" expanded="true" />
-            <element signature="e#3229#3230#0" expanded="true" />
-            <element signature="e#3258#3259#0" expanded="true" />
-            <element signature="e#3299#3300#0" expanded="true" />
-            <element signature="e#3335#3336#0" expanded="true" />
-            <element signature="e#3373#3374#0" expanded="true" />
-            <element signature="e#3410#3411#0" expanded="true" />
-            <element signature="e#3467#3468#0" expanded="true" />
-            <element signature="e#3519#3520#0" expanded="true" />
-            <element signature="e#3562#3563#0" expanded="true" />
-            <element signature="e#3604#3605#0" expanded="true" />
-            <element signature="e#3671#3672#0" expanded="true" />
-            <element signature="e#3733#3734#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/SuperPermutation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="33" column="66" lean-forward="true" selection-start-line="33" selection-start-column="66" selection-end-line="33" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

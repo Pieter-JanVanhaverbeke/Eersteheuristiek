@@ -20,10 +20,6 @@ public class Hillclimbing {
     Random random = new Random(1);
 
     public Hillclimbing(int aantalElements,int lengte) {
-        bestesolution = null;
-        huidigesolution = null;
-        neighbourhoodsolution = null;
-
         bestescore = 0;
         huidigescore = 0;
         neighbourhoodscore = 0;
@@ -32,13 +28,18 @@ public class Hillclimbing {
         this.lengte = lengte;
         this.bestegraad = (int) MathUtil.factorial(aantalElements-1);
 
+        bestesolution = new Solution(aantalElements,lengte,bestegraad);
+        huidigesolution = new Solution(bestesolution);
+        neighbourhoodsolution = new Solution(bestesolution);
     }
 
     public void start(int aantalminuten){
-        aantalminuten = aantalminuten*60000;
+        aantalminuten = aantalminuten*6000;
         long end = System.currentTimeMillis() + aantalminuten;
 
         bestesolution.initialiseerrandom(random);      //TODO INTIALISEREN
+
+        System.out.println(bestesolution);
 
         while (System.currentTimeMillis() < end) {
             hillclimbing();
@@ -47,11 +48,37 @@ public class Hillclimbing {
     }
 
     public void hillclimbing(){
-        huidigesolution = new Solution(bestesolution);
+        neighbourhoodsolution = new Solution((huidigesolution));
+        int getal = random.nextInt(lengte);
+        neighbourhoodsolution = searchNeighbourhood(getal);
 
-
+        if(neighbourhoodsolution.getGraadVanOplossing()>=huidigesolution.getGraadVanOplossing()){
+            huidigesolution = new Solution(neighbourhoodsolution);
+            bestesolution = new Solution(neighbourhoodsolution);
+            System.out.println(bestesolution.toString());
+        }
     }
 
+
+    public Solution searchNeighbourhood(int index){
+        Solution besteNeighbourhoodSolution = null;
+
+
+        int besteneighbourhoodscore = -1;
+        int neighbourhoodscore = 0;
+        for(int i=0; i<aantalElements;i++){
+            neighbourhoodsolution = new Solution(huidigesolution);
+            neighbourhoodsolution.swap(index,i);
+            neighbourhoodscore = getNeighbourhoodscore();
+
+            if(neighbourhoodsolution.getGraadVanOplossing()>besteneighbourhoodscore){
+                besteneighbourhoodscore = neighbourhoodscore;
+                besteNeighbourhoodSolution = new Solution(neighbourhoodsolution);
+            }
+        }
+
+        return besteNeighbourhoodSolution;
+    }
 
 
 

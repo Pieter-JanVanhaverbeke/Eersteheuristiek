@@ -7,12 +7,14 @@ public class Solution {
     private int lengte;
     private int aantalelements;
     private int combinationlistsize;
+    private int score;
 
     public Solution(int lengte, int aantalelements, int combinationlistsize) {
-        this.solutionarray = new char [lengte];
+        this.solutionarray = new char [aantalelements];
         this.lengte = lengte;
         this.aantalelements = aantalelements;
         this.combinationlistsize = combinationlistsize;
+        this.score = -1;
     }
 
     public Solution(Solution solution){
@@ -20,13 +22,14 @@ public class Solution {
         this.lengte = solution.getLengte();
         this.aantalelements = solution.aantalelements;
         this.combinationlistsize = solution.getCombinationlistsize();
+        this.score = -1;
     }
 
                 //VERSCHILLENDE MOVES
-    public void swap(char[] oplossing,int index1, int index2){       //TODO NIET ALLES IN MAP STEKEN
-        char temp = oplossing [index1];
-        oplossing[index1] = oplossing [index2];
-        oplossing[index2] = temp;
+    public void swap(int index1, int index2){       //TODO NIET ALLES IN MAP STEKEN
+        char temp = solutionarray [index1];
+        solutionarray[index1] = solutionarray [index2];
+        solutionarray[index2] = temp;
     }
 
 
@@ -46,7 +49,7 @@ public class Solution {
     //INTITIALISEREN
     public void initialiseerrandom(Random random){
         solutionarray = new char [lengte];
-        for(int i=0; i<aantalelements;i++){
+        for(int i=0; i<lengte;i++){
             char nummer = (char) (random.nextInt(aantalelements) + '1');
             solutionarray[i] = nummer;
         }
@@ -62,8 +65,10 @@ public class Solution {
         solutionarray[6] = '2';
         solutionarray[7] = '2';
         solutionarray[8] = '3';
-
     }
+
+
+
 
 
     //CHECKEN OF OPLOSSING FEASIBLE IS
@@ -86,10 +91,10 @@ public class Solution {
 
     //CHECKEN VAN GRAAD OPLOSSING
 
-    public int getGraadVanOplossing(char [] oplossing){
+    public int getGraadVanOplossing(){
         Set<String> aanwezigestrings = new HashSet<String>();
         for(int i=0; i<lengte-aantalelements+1;i++){
-            String string = getstringpos(i,oplossing);
+            String string = getstringpos(i,solutionarray);
             if(uniqueCharacters(string)){
                 aanwezigestrings.add(string);               //adding to booleanset
             }
@@ -168,5 +173,18 @@ public class Solution {
 
     public void setCombinationlistsize(int combinationlistsize) {
         this.combinationlistsize = combinationlistsize;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return  Arrays.toString(solutionarray);
     }
 }

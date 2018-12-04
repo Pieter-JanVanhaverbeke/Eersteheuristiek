@@ -5,12 +5,19 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        //List<String> superpermutation = new ArrayList<>();
-        // String [] superpermutation3 = new String [9];
         int permutationlengte = 3;
         int superstringlengte = 9;
         Solution solution;
         Permutation permutation = new Permutation(permutationlengte);       //genereer permutatie
+
+
+        Hillclimbing hillclimbing = new Hillclimbing(permutationlengte,superstringlengte);
+        hillclimbing.start(10);      //aantalseconden
+
+
+
+
+
 
 
         Set<String> permutationset = permutation.getPermutationset();
@@ -27,15 +34,17 @@ public class Main {
      //   solution.setPermutationlijst(permutation.getPermutationlijst());
      //   System.out.println(solution.ControlleerAlles());                    //uitprinten feasible solution
 
-        System.out.println();
-        System.out.println();
+
+
+
+
 
         //LOCAL SEARCH HEURISTIEK
-        System.out.println("oplossing localsearch1 heuristiek: ");
+    /*    System.out.println("oplossing localsearch1 heuristiek: ");
         LocalSearchHeuristiek2 opl2 = new LocalSearchHeuristiek2(superstringlengte,permutationlengte,permutation.getPermutationlijst());
         opl2.setCombinationlist(permutation.getPermutationlijst());
         opl2.start2();
-
+*/
     }
 }
 
