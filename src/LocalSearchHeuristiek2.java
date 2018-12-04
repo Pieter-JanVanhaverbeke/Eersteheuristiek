@@ -41,6 +41,29 @@ public class LocalSearchHeuristiek2 {
 
     // goedeswap(0,besteoplossing);
 
+
+    public void start2(){
+       char[] oplossing = maakinitieleopl();
+     /*   besteoplossing[0] = '2';
+        besteoplossing[1] = '1';
+        besteoplossing[2] = '1';
+        besteoplossing[3] = '1';
+        besteoplossing[4] = '2';
+        besteoplossing[5] = '3';
+        besteoplossing[6] = '2';
+        besteoplossing[7] = '2';
+        besteoplossing[8] = '3';
+*/
+  //      oplossing = besteoplossing.clone();
+
+      //  char [] oplossing = besteoplossing.clone();
+        //permuteswap(oplossing,0,aantalelements-1);
+        goedeswap(0,oplossing);
+        System.out.println("finale oplossing: " + new String(besteoplossing,0,aantalelements));
+
+
+    }
+
     public void start() {
         boolean oplossinggevonden = false;
         //constructie oplossing
@@ -59,7 +82,7 @@ public class LocalSearchHeuristiek2 {
         while(System.currentTimeMillis() < end){
 
 
-            insertpermutationneighbour(oplossing);
+            insertpermutationrandom(oplossing);
             int graad1 = getGraadVanOplossing(oplossing);
             int graad2 = getGraadVanOplossing(besteoplossing);
 
@@ -87,7 +110,7 @@ public class LocalSearchHeuristiek2 {
 
 
 
-    public boolean swap(int index1, int index2,char[] oplossing){       //TODO NIET ALLES IN MAP STEKEN
+    public boolean swap(char[] oplossing,int index1, int index2){       //TODO NIET ALLES IN MAP STEKEN
         if(oplossing[index1]!=oplossing[index2]){
             char temp = oplossing [index1];
             oplossing[index1] = oplossing [index2];
@@ -98,12 +121,35 @@ public class LocalSearchHeuristiek2 {
         return true;
     }
 
+    public char[] swap2(char[] oplossing,int index1, int index2){       //TODO NIET ALLES IN MAP STEKEN
+            char temp = oplossing [index1];
+            oplossing[index1] = oplossing [index2];
+            oplossing[index2] = temp;
+            return oplossing;
+    }
+
+    private void permuteswap(char[] oplossing, int beginindex, int endindex ) {
+        if (beginindex == endindex){
+            controlleerAlles(oplossing);
+        //    System.out.println(oplossing);
+        }
+
+        else {
+            for (int i = beginindex; i <= endindex; i++) {
+                oplossing = swap2(oplossing,beginindex, i);
+                permuteswap(oplossing, beginindex + 1, endindex);
+                oplossing = swap2(oplossing, beginindex, i);
+            }
+        }
+
+    }
+
     public void goedeswap(int index,char [] oplossing){
 
         for(int i=index;i<aantalelements-1;i++){
             char [] neighbouropl = oplossing.clone();
 
-            boolean nuttigeswap = swap(index,i+1,neighbouropl);
+            boolean nuttigeswap = swap(neighbouropl,index,i+1);
 
             System.out.println(new String(neighbouropl,0,aantalelements));
 
