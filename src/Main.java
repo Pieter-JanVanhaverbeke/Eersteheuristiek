@@ -5,8 +5,8 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        int permutationlengte = 3;
-        int superstringlengte = 9;
+        int permutationlengte = 4;
+        int superstringlengte =33;
         Permutation permutation = new Permutation(permutationlengte);       //genereer permutatie
 
 

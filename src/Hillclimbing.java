@@ -46,7 +46,7 @@ public class Hillclimbing {
        neighbourhoodsolution = new Solution(bestesolution);
        huidigesolution = new Solution(bestesolution);
 
-      //  huidigesolution.initialiseerrandom(random);
+ //       huidigesolution.initialiseerrandom(random);
    //     huidigesolution.intitialiseerFeasible();
 
         System.out.println(bestesolution);
@@ -62,23 +62,24 @@ public class Hillclimbing {
     public void hillclimbing(){
         teller++;
         neighbourhoodsolution = new Solution((huidigesolution));
+        int quarts = 0;
 
 
-        if(teller%10000==0){
+        if(teller%3==0){
             neighbourhoodsolution = searchNeighbourhoodpermutation();
-
+            quarts = 1;
 
        //     neighbourhoodscore = neighbourhoodsolution.getScore();
         }
-        else if(teller%25==0){
+        else if(teller%3==1){
             char c = (char) (random.nextInt(lengte) + '1');
             neighbourhoodsolution = searchNeighbourhoodinsert(c);
-
+            quarts = 2;
         }
         else {
             int getal = random.nextInt(aantalElements);
             neighbourhoodsolution = searchNeighbourhoodswap(getal);
-
+            quarts = 3;
         }
 
         //ALS BETERE SOLUTION IS, UPDATEN
@@ -87,7 +88,7 @@ public class Hillclimbing {
             bestesolution = new Solution(neighbourhoodsolution);
             if(bestescore!=bestesolution.getGraadVanOplossing()){
                 bestescore=bestesolution.getGraadVanOplossing();
-                System.out.println(bestescore);
+                System.out.println(bestescore + "methode: " + quarts);
             }
         }
 
@@ -163,9 +164,6 @@ public class Hillclimbing {
             //ENKEL NUTTIGE SWAPS UITVOEREN
             neighbourhoodsolution = new Solution(huidigesolution);
 
-         /*   String string = "1234";         //TODO NIET HARDCODEREN
-            string = getScrambled(string);
-*/
 
             neighbourhoodsolution.insertpermutation(i,permutation);       //TODO PERMUTATIE TOEVOEGEN
             neighbourhoodscore = neighbourhoodsolution.getGraadVanOplossing();

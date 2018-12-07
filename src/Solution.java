@@ -105,8 +105,11 @@ public class Solution {
         }
 
         combinationlist.removeAll(aanwezigestrings);
-        int index = random.nextInt(combinationlist.size());
-        return combinationlist.get(index);
+        if(combinationlist.size()!=0){
+            int index = random.nextInt(combinationlist.size());
+            return combinationlist.get(index);
+        }
+        else return "";
 
     }
 
