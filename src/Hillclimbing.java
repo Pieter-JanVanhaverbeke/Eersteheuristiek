@@ -1,9 +1,6 @@
 import org.jgrapht.util.MathUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Hillclimbing {
     private Solution bestesolution;
@@ -20,7 +17,9 @@ public class Hillclimbing {
 
     private int teller;
 
-    Random random = new Random(4);
+    Random random = new Random(1);
+
+    private List<String> combinations;
 
     public Hillclimbing(int lengte, int aantalElements) {
         bestescore = 0;
@@ -35,6 +34,7 @@ public class Hillclimbing {
         bestesolution = new Solution(lengte,aantalElements,bestegraad);
         huidigesolution = new Solution(lengte,aantalElements,bestegraad);
         neighbourhoodsolution = new Solution(lengte,aantalElements,bestegraad);
+
     }
 
     public void start(int aantalminuten){
@@ -56,6 +56,7 @@ public class Hillclimbing {
         }
         System.out.println("de beste oplossing is: " + Arrays.toString(bestesolution.getSolutionarray()));
         System.out.println("de graad is: " + bestesolution.getGraadVanOplossing());
+      //  System.out.println("graad huidige sol: " + Arrays.toString(huidigesolution.getSolutionarray()));
     }
 
     public void hillclimbing(){
@@ -63,15 +64,24 @@ public class Hillclimbing {
         neighbourhoodsolution = new Solution((huidigesolution));
 
 
-        if(teller%100==0){
+        if(teller%10000==0){
+            neighbourhoodsolution = searchNeighbourhoodpermutation();
+
+
+       //     neighbourhoodscore = neighbourhoodsolution.getScore();
+        }
+        else if(teller%25==0){
             char c = (char) (random.nextInt(lengte) + '1');
             neighbourhoodsolution = searchNeighbourhoodinsert(c);
+
         }
         else {
             int getal = random.nextInt(aantalElements);
             neighbourhoodsolution = searchNeighbourhoodswap(getal);
+
         }
 
+        //ALS BETERE SOLUTION IS, UPDATEN
         if(neighbourhoodsolution.getGraadVanOplossing()>=huidigesolution.getGraadVanOplossing()){
             huidigesolution = new Solution(neighbourhoodsolution);
             bestesolution = new Solution(neighbourhoodsolution);
@@ -99,7 +109,7 @@ public class Hillclimbing {
 
             neighbourhoodsolution = new Solution(huidigesolution);
             neighbourhoodsolution.swap(index,i);
-            neighbourhoodscore = getNeighbourhoodscore();
+            neighbourhoodscore = neighbourhoodsolution.getGraadVanOplossing();
 
             if(neighbourhoodsolution.getGraadVanOplossing()>besteneighbourhoodscore){
                 besteneighbourhoodscore = neighbourhoodscore;
@@ -124,18 +134,54 @@ public class Hillclimbing {
             //ENKEL NUTTIGE SWAPS UITVOEREN
                 neighbourhoodsolution = new Solution(huidigesolution);
                 neighbourhoodsolution.change(i,c);
-                neighbourhoodscore = getNeighbourhoodscore();
+                neighbourhoodscore = neighbourhoodsolution.getGraadVanOplossing();
 
                 if(neighbourhoodsolution.getGraadVanOplossing()>besteneighbourhoodscore){
                     besteneighbourhoodscore = neighbourhoodscore;
                     besteNeighbourhoodSolution = new Solution(neighbourhoodsolution);
+                    //besteNeighbourhoodSolution.setScore(neighbourhoodscore);
                 }
 
             }
 
+        return besteNeighbourhoodSolution;
+    }
+
+    public Solution searchNeighbourhoodpermutation(){
+        Solution besteNeighbourhoodSolution = null;
+
+
+        int besteneighbourhoodscore = -1;
+       // int neighbourhoodscore = 0;
+
+        neighbourhoodsolution = new Solution(huidigesolution);
+        List<String> com = new ArrayList<>(combinations);
+        String permutation = huidigesolution.getNodigePermutation(com,random);
+
+        for(int i=0; i<aantalElements-lengte;i++){
+
+            //ENKEL NUTTIGE SWAPS UITVOEREN
+            neighbourhoodsolution = new Solution(huidigesolution);
+
+         /*   String string = "1234";         //TODO NIET HARDCODEREN
+            string = getScrambled(string);
+*/
+
+            neighbourhoodsolution.insertpermutation(i,permutation);       //TODO PERMUTATIE TOEVOEGEN
+            neighbourhoodscore = neighbourhoodsolution.getGraadVanOplossing();
+
+            if(neighbourhoodsolution.getGraadVanOplossing()>besteneighbourhoodscore){
+                besteneighbourhoodscore = neighbourhoodscore;
+                besteNeighbourhoodSolution = new Solution(neighbourhoodsolution);
+            }
+
+        }
+
 
         return besteNeighbourhoodSolution;
     }
+
+
 
 
 
@@ -207,7 +253,26 @@ public class Hillclimbing {
         return bestegraad;
     }
 
-    public void setBestegraad(int bestegraad) {
-        this.bestegraad = bestegraad;
+    public List<String> getCombinations() {
+        return combinations;
     }
+
+    public void setCombinations(List<String> combinations) {
+        this.combinations = combinations;
+    }
+
+    public  String getScrambled(String s) {
+            String[] scram = s.split("");
+            List<String> letters = Arrays.asList(scram);
+            Collections.shuffle(letters);
+            StringBuilder sb = new StringBuilder(s.length());
+            for (String c : letters) {
+                sb.append(c);
+            }
+            return sb.toString();
+        }
+
+
+
+
 }

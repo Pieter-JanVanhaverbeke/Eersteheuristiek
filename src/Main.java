@@ -5,13 +5,14 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        int permutationlengte = 4;
-        int superstringlengte = 34;
+        int permutationlengte = 3;
+        int superstringlengte = 9;
         Permutation permutation = new Permutation(permutationlengte);       //genereer permutatie
 
 
         Hillclimbing hillclimbing = new Hillclimbing(permutationlengte,superstringlengte);
-        hillclimbing.start(100);      //aantalseconden
+        hillclimbing.setCombinations(permutation.getPermutationlijst());
+        hillclimbing.start(60);      //aantalseconden
 
 
 

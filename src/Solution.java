@@ -25,7 +25,7 @@ public class Solution {
        // solutionarray = new char [aantalelements];
       //  System.arraycopy(solution.getSolutionarray(),0,solutionarray,0,lengte);
 
-        this.score = -1;
+        this.score = solution.score;
     }
 
                 //VERSCHILLENDE MOVES
@@ -36,10 +36,10 @@ public class Solution {
     }
 
 
-    public void insertpermutation(int index,String permutation,char []oplossing){
+    public void insertpermutation(int index, String permutation){
         char [] elements = permutation.toCharArray();
         for(int i=0; i<lengte;i++){                 //INVOEGEN PERMUTATIE
-            oplossing[index+i] = elements[i];
+            solutionarray[index+i] = elements[i];
         }
     }
 
@@ -93,6 +93,21 @@ public class Solution {
             return true;
         }
         return false;
+    }
+
+    public String getNodigePermutation(List<String> combinationlist,Random random){              //TODO KAN EFFICIENTER
+        Set<String> aanwezigestrings = new HashSet<>();
+        for(int i=0; i<aantalelements-lengte+1;i++){
+            String string = getstringpos(i);
+            if(uniqueCharacters(string)){
+                aanwezigestrings.add(string);               //adding to booleanset
+            }
+        }
+
+        combinationlist.removeAll(aanwezigestrings);
+        int index = random.nextInt(combinationlist.size());
+        return combinationlist.get(index);
+
     }
 
 
