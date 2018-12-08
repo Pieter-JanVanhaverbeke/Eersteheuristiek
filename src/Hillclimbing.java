@@ -1,5 +1,12 @@
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jgrapht.util.MathUtil;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 public class Hillclimbing {
@@ -16,10 +23,12 @@ public class Hillclimbing {
     private int bestegraad;
 
     private int teller;
+    private int betereoplteller;
 
     Random random = new Random(1);
 
     private List<String> combinations;
+    private Map<String, Object[]> data;
 
     public Hillclimbing(int lengte, int aantalElements) {
         bestescore = 0;
@@ -30,10 +39,14 @@ public class Hillclimbing {
         this.lengte = lengte;
         this.bestegraad = (int) MathUtil.factorial(aantalElements-1);
         this.teller = 0;
+        this.betereoplteller = 2;
 
         bestesolution = new Solution(lengte,aantalElements,bestegraad);
         huidigesolution = new Solution(lengte,aantalElements,bestegraad);
         neighbourhoodsolution = new Solution(lengte,aantalElements,bestegraad);
+
+
+        Map<String, Object[]> data = new TreeMap<String, Object[]>();
 
     }
 
@@ -41,54 +54,76 @@ public class Hillclimbing {
         aantalminuten = aantalminuten*600;
         long end = System.currentTimeMillis() + aantalminuten;
 
-       bestesolution.initialiseerrandom(random);      //TODO INTIALISEREN
+  //     bestesolution.initialiseerrandom(random);      //TODO INTIALISEREN
  //       bestesolution.intitialiseerFeasible();
+       bestesolution.maakinitieleopl();
        neighbourhoodsolution = new Solution(bestesolution);
        huidigesolution = new Solution(bestesolution);
 
  //       huidigesolution.initialiseerrandom(random);
    //     huidigesolution.intitialiseerFeasible();
 
-        System.out.println(bestesolution);
+        //System.out.println(bestesolution);
 
         while (System.currentTimeMillis() < end) {
             hillclimbing();
         }
-        System.out.println("de beste oplossing is: " + Arrays.toString(bestesolution.getSolutionarray()));
+
+        writeToExcel();
+
+
+        System.out.println("de beste oplossing is: " + String.valueOf(bestesolution.getSolutionarray()));
         System.out.println("de graad is: " + bestesolution.getGraadVanOplossing());
       //  System.out.println("graad huidige sol: " + Arrays.toString(huidigesolution.getSolutionarray()));
     }
 
     public void hillclimbing(){
-        teller++;
+       // teller++;
         neighbourhoodsolution = new Solution((huidigesolution));
-        int quarts = 0;
+     //   int quarts = 0;
+
+        neighbourhoodsolution.swapRandom(random);
+        neighbourhoodscore = getNeighbourhoodscore();
 
 
-        if(teller%3==0){
-            neighbourhoodsolution = searchNeighbourhoodpermutation();
-            quarts = 1;
+      /*  if(teller%2==0){
+            int getal = random.nextInt(aantalElements);
+            neighbourhoodsolution = searchNeighbourhoodswap(getal);
+            quarts = 3;
 
        //     neighbourhoodscore = neighbourhoodsolution.getScore();
         }
-        else if(teller%3==1){
+        else if(teller%5==0){
             char c = (char) (random.nextInt(lengte) + '1');
             neighbourhoodsolution = searchNeighbourhoodinsert(c);
             quarts = 2;
         }
         else {
-            int getal = random.nextInt(aantalElements);
-            neighbourhoodsolution = searchNeighbourhoodswap(getal);
-            quarts = 3;
-        }
+            neighbourhoodsolution = searchNeighbourhoodpermutation();
+            quarts = 1;
+        }*/
 
         //ALS BETERE SOLUTION IS, UPDATEN
         if(neighbourhoodsolution.getGraadVanOplossing()>=huidigesolution.getGraadVanOplossing()){
             huidigesolution = new Solution(neighbourhoodsolution);
-            bestesolution = new Solution(neighbourhoodsolution);
-            if(bestescore!=bestesolution.getGraadVanOplossing()){
+        //    bestesolution = new Solution(neighbourhoodsolution);
+            huidigescore = bestesolution.getGraadVanOplossing();
+
+            System.out.println(bestescore + " :" + String.valueOf(bestesolution.getSolutionarray()));
+            if(huidigescore!=bestesolution.getGraadVanOplossing()){
+
+                bestesolution = new Solution(neighbourhoodsolution);
                 bestescore=bestesolution.getGraadVanOplossing();
-                System.out.println(bestescore + "methode: " + quarts);
+
+
+                //SCHRIJVEN NAAR EXCEL
+                data.put("1", new Object[]{"Iteration", "Before", "After"});
+                data.put(String.valueOf(betereoplteller), new Object[]{"Iteration", "Before", "After"});
+
+                betereoplteller++;
+
+
+           //     System.out.println(bestescore + "methode: " + quarts);
             }
         }
 
@@ -183,6 +218,9 @@ public class Hillclimbing {
 
 
 
+
+
+
     public Solution getBestesolution() {
         return bestesolution;
     }
@@ -271,6 +309,56 @@ public class Hillclimbing {
         }
 
 
+    public void writeToExcel(){
+       // Workbook wb = new HSSFWorkbook();
+        Workbook wb = new XSSFWorkbook();
+        CreationHelper createHelper = wb.getCreationHelper();
+        Sheet sheet = wb.createSheet("swapiterdata");
 
+        data.put("1", new Object[]{"Iteration", "Before", "After"});
+
+
+        Set<String> keyset = data.keySet();
+
+        int rownum = 0;
+        for (String key : keyset)
+        {
+            //create a row of excelsheet
+            Row row = sheet.createRow(rownum++);
+
+            //get object array of prerticuler key
+            Object[] objArr = data.get(key);
+
+            int cellnum = 0;
+
+            for (Object obj : objArr)
+            {
+                Cell cell = row.createCell(cellnum++);
+                if (obj instanceof String)
+                {
+                    cell.setCellValue((String) obj);
+                }
+                else if (obj instanceof Integer)
+                {
+                    cell.setCellValue((Integer) obj);
+                }
+            }
+        }
+
+        try
+        {
+            //Write the workbook in file system
+            FileOutputStream out = new FileOutputStream(new File("C:\\data\\exceldata\\iterations.xlsx"));
+            wb.write(out);
+            out.close();
+            System.out.println("howtodoinjava_demo.xlsx written successfully on disk.");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
 }

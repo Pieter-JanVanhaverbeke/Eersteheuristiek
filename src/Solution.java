@@ -1,3 +1,5 @@
+import org.jgrapht.util.MathUtil;
+
 import java.util.*;
 
 import static org.apache.commons.lang3.RandomUtils.nextInt;
@@ -33,6 +35,14 @@ public class Solution {
         char temp = solutionarray [index1];
         solutionarray[index1] = solutionarray [index2];
         solutionarray[index2] = temp;
+        score = getScore();
+    }
+
+
+    public void swapRandom(Random random){
+        int randomindex = random.nextInt(aantalelements-lengte+1);
+        int randomindex2 = random.nextInt(aantalelements-lengte+1);
+        swap(randomindex,randomindex2);
     }
 
 
@@ -62,7 +72,31 @@ public class Solution {
         }
     }
 
-    public void intitialiseerFeasible(){
+
+    public void maakinitieleopl(){
+        ArrayList<Character> lijst = new ArrayList<Character>();
+        int factorial = (int) MathUtil.factorial(lengte-1);     //k-1 factorial
+        for(int i=0; i<factorial;i++){
+            for(int j=0; j<lengte;j++){
+                char character = (char) (j +'1');                           //omzetten naar character
+                lijst.add(character);
+            }
+        }
+
+        while(lijst.size()<aantalelements){
+            char random2 = (char)((Math.random() * lengte) + '1');
+            lijst.add(random2);         //random overige elements
+        }
+
+        Collections.shuffle(lijst);
+
+        for(int i=0; i<lijst.size();i++){
+            solutionarray[i] =  lijst.get(i);
+        }
+
+    }
+
+   /* public void intitialiseerFeasible(){
         solutionarray[0] = '2';
         solutionarray[1] = '1';
         solutionarray[2] = '1';
@@ -73,7 +107,7 @@ public class Solution {
         solutionarray[7] = '2';
         solutionarray[8] = '3';
     }
-
+*/
 
 
 
